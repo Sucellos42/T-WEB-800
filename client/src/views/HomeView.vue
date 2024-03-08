@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Chat from '../components/ChatComponent.vue';
+import Input from "~/components/common/InputCommon.vue"
 </script>
 
 <template>
   <div class="">
-    <Chat></Chat>
+    <Input></Input>
   </div>
 </template>
 
