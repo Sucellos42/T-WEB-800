@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import Input from "~/components/common/InputCommon.vue"
+
 </script>
 
 <template>
-  <div class="">
-    <Input></Input>
+  <div class="h-screen w-screen" >
+    <Input
+    >
+    </Input>
   </div>
 </template>
 

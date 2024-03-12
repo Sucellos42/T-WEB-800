@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 const destination = ref("")
 const depart = ref("")
@@ -8,7 +9,8 @@ const prix = ref("")
 const isSelected = ref("")
 const isHidden = ref(false)
 
-function reset (type : String) {
+
+function reset (type : string) {
   switch (type) {
     case 'destination':
       destination.value = ''
@@ -32,10 +34,17 @@ function focusInput (type : string) {
   isHidden.value = true
 }
 
+function resetAllValues () {
+  destination.value = ''
+  depart.value = ''
+  arrivee.value = ''
+  prix.value = ''
+  isHidden.value = false
+}
 </script>
 
 <template>
-  <div class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom" :class="{'bg-gray-200': isHidden}">
+  <div v-click-outside="resetAllValues" class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom" :class="{'bg-gray-200': isHidden}">
     <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="{'bg-white hover:bg-white': isSelected === 'destination'}" @click="focusInput('destination')">
       <div class="flex flex-col pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
@@ -90,7 +99,9 @@ function focusInput (type : string) {
             v-model="prix"
         />
       </div>
-      <button v-if="prix" class="hover:bg-white" @click="reset('prix')">x</button>
+      <button class="bg-red-500 rounded-full p-2.5">
+        <font-awesome-icon class="text-white" icon="search" />
+      </button>
     </div>
   </div>
 
