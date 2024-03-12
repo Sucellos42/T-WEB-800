@@ -44,7 +44,7 @@ function resetAllValues () {
 </script>
 
 <template>
-  <div v-click-outside="resetAllValues" class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom" :class="{'bg-gray-200': isHidden}">
+  <div v-click-outside="resetAllValues" class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom" :class="{'bg-gray-200': isHidden}">
     <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="{'bg-white hover:bg-white': isSelected === 'destination'}" @click="focusInput('destination')">
       <div class="flex flex-col pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
