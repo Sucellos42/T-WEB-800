@@ -1,16 +1,30 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import { useConnexionStore } from '~/stores/connexion/connexion.store.ts'
 
-defineProps({
-  type: String
-})
+const props = defineProps<{
+  type: String;
+}>();
+
+const connexionStore = useConnexionStore()
+const token: string | null = localStorage.getItem('token') ?? null
+const log: string = token ? 'Déconnexion' : 'Connexion'
+
 </script>
 
 <template>
-  <div v-if="type === 'connexion'" class="flex flex-col border-0.5 border-gray-300 rounded-md p-4 gap-y-0.5">
-    <span class="hover:text-red-500">Inscription</span>
-    <span class="hover:text-red-500">Connexion</span>
+  <div v-if="props.type === 'connexion'" class="flex flex-col border-0.5 border-gray-300 rounded-md p-4 gap-y-0.5">
+    <span v-if="!token" @click="connexionStore.oAuthLogin()" class="hover:text-red-500">Inscription</span>
+    <span @click="connexionStore.logout()" class="hover:text-red-500">{{ log }}</span>
   </div>
+  <div v-if="props.type === 'destination'">
+
+  </div>
+  <div v-if="props.type === 'depart'">
+
+  </div>
+  <div v-if="props.type === 'arrivee'"></div>
+  <div v-if="props.type === 'prix'"></div>
 
 </template>
 
