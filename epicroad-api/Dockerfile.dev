@@ -1,0 +1,23 @@
+# Utiliser l'image officielle Node.js comme image parente
+FROM node:20-slim
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers de dépendances
+COPY package*.json ./
+
+# Installer les dépendances, y compris celles de développement
+RUN npm install
+
+# Installer procps pour fournir la commande ps, nécessaire pour certaines opérations
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+
+# Copier le reste des fichiers du projet
+COPY . .
+
+# Exposer le port sur lequel votre app va tourner
+EXPOSE 3000
+
+# Démarrer l'application en mode de développement
+CMD ["npm", "run", "start:dev"]
