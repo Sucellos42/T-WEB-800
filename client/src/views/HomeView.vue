@@ -31,7 +31,6 @@ onMounted(() => {
     <div class="flex justify-center mt-10 w-screen">
       <Input/>
     </div>
-
   </div>
 </template>
 

@@ -18,7 +18,6 @@ export class GoogleController {
     const data: OAuthInterface = this.googleService.googleLogin(req);
     const token: string = encodeURIComponent(data.user.accessToken);
     const firstName: string = encodeURIComponent(data.user.firstName);
-    console.log('token', encodeURIComponent(data.user.accessToken));
     const redirectUrl = `${process.env.URL_FRONTEND}?token=${token}&firstName=${firstName}`;
     if (token) {
       res.redirect(redirectUrl);

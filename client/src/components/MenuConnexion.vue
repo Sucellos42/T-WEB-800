@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, onMounted, ComputedRef} from "vue";
+import {computed, ref, ComputedRef} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import CardCommon from "~/components/common/CardCommon.vue";
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts'
