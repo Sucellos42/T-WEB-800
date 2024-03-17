@@ -1,0 +1,23 @@
+FROM node:21-slim AS base
+ENV PNPM_HOME=" /pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Backend stage
+FROM base AS backend
+WORKDIR /usr/app
+# Copiez les fichiers nécessaires pour exécuter l'application NestJS
+COPY --from=build /usr/src/app/path-to-nestjs/dist ./dist
+COPY --from=build /usr/src/app/path-to-nestjs/node_modules ./node_modules
+EXPOSE 3000
+CMD [ "node", "dist/main" ]
+
+# Frontend stage
+FROM base AS frontend
+WORKDIR /usr/app
+# Copiez les fichiers de build nécessaires pour servir l'application Vue.js
+COPY --from=build /usr/src/app/path-to-vuejs/dist ./dist
+# Ici, vous devrez servir votre build de Vue.js avec un serveur HTTP comme Nginx ou serve
+# Par exemple, vous pourriez utiliser un serveur de fichiers statiques Node.js
+# CMD [ "npx", "serve", "-s", "dist", "-p", "8080" ]
+EXPOSE 8080

@@ -7,7 +7,7 @@ services:
     volumes:
       - ./epicroad-api:/app # Montez le code source localement pour le développement en direct
     ports:
-      - "3001:3000"
+      - "3000:3000"
     environment:
       NODE_ENV: development
 #  vuejs:

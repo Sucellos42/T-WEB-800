@@ -1,0 +1,31 @@
+# Étape de build
+FROM node:20-slim AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Installer uniquement les dépendances de production
+RUN npm install --only=production
+
+COPY . .
+
+# Construire l'application pour la production
+CMD ["cd", "app"]
+CMD ["npm", "run", "start:dev"]
+
+#RUN npm run build
+#
+## Étape de production
+#FROM builder AS production
+#
+#WORKDIR /app
+#
+#COPY --from=builder /app/build ./build
+#COPY --from=builder /app/node_modules ./node_modules
+#
+## Exposer le port utilisé par votre application
+#EXPOSE 3000
+#
+## Démarrer l'application
+#CMD ["node", "build/index.js"]
