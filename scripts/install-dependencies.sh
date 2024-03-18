@@ -1,3 +1,3 @@
 pnpm install
-cd client && pnpm install
-cd ../epicroad-api && pnpm install
+cd frontend && pnpm install
+cd ../backend && pnpm install
