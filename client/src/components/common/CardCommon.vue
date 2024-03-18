@@ -39,7 +39,7 @@ const emit = defineEmits(['update:selectedRange'])
     <span v-if="!token" @click="connexionStore.oAuthLogin()" class="hover:text-red-500">Inscription</span>
     <span @click="connexionStore.logout()" class="hover:text-red-500">{{ log }}</span>
   </div>
-  <VDatePicker v-if="props.type === 'arrivee'" v-model.range="selectedRange" :attributes="attributes" :min-date="new Date()" expanded />
+  <VDatePicker v-if="props.type === ('arrivee' || 'depart')" v-model.range="selectedRange" :attributes="attributes" :min-date="new Date()" expanded />
   <div v-if="props.type === 'prix'"></div>
 
 </template>

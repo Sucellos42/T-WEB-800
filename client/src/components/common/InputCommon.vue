@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, defineProps, watch, defineEmits } from "vue"
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import CardCommon from "~/components/common/CardCommon.vue";
 
-import type { RangeDateSelected } from "~/types/rangeDateSelected.type.ts";
+const props = defineProps<{
+  start: String;
+  end: String;
+}>();
 
 const destination = ref("")
 const depart = ref("")
@@ -11,6 +13,19 @@ const arrivee = ref("")
 const prix = ref("")
 const isSelected = ref("")
 const isHidden = ref(false)
+
+
+watch(() => props.start, (newVal) => {
+  if(newVal) {
+    arrivee.value = newVal
+  }
+}, { immediate: true })
+
+watch(() => props.end, (newVal) => {
+  if(newVal) {
+    depart.value = newVal
+  }
+}, { immediate: true })
 
 function reset (type : string) {
   switch (type) {
@@ -33,6 +48,9 @@ function reset (type : string) {
 
 function focusInput (type : string) {
   isSelected.value = type
+  if(type === 'arrivee' || type === 'depart') {
+    emit('update:input-selected', type)
+  }
   isHidden.value = true
 }
 
@@ -43,27 +61,16 @@ function resetAllValues () {
   prix.value = ''
   isHidden.value = false
   isSelected.value = ''
+  emit('reset:input', '')
 }
 
-function updateDateSelected (value: RangeDateSelected) {
-  const newArrivee: string = formatDate(value.start)
-  const newDepart: string = formatDate(value.end)
-
-  arrivee.value = newArrivee
-  depart.value = newDepart
-}
-
-function formatDate (date: Date) {
-  const day: string = date.getDate().toString().padStart(2, '0');
-  const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
-  const year: string = date.getFullYear().toString();
-  return `${day}/${month}/${year}`;
-}
+const emit = defineEmits(['update:input-selected', 'reset:input'])
 </script>
 
 <template>
-  <div v-click-outside="resetAllValues" class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom" :class="{'bg-gray-200': isHidden}">
-    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="{'bg-white hover:bg-white': isSelected === 'destination'}" @click="focusInput('destination')">
+  <div v-click-outside="resetAllValues" class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom" :class="{'bg-airbnb': isHidden}">
+    <div class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover" :class="[isSelected === 'destination' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']"
+         @click="focusInput('destination')">
       <div class="flex flex-col pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
         <input
@@ -75,10 +82,10 @@ function formatDate (date: Date) {
             v-model="destination"
         />
       </div>
-      <button v-if="destination" class="hover:bg-white" @click="reset('destination')">x</button>
+      <button v-if="destination" class="hover:bg-white hover:rounded-full p-1" @click="reset('destination')">x</button>
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
-    <div class="flex relative justify-between p-4 rounded-6xl hover:bg-gray-100" :class="{'bg-white hover:bg-white': isSelected === 'arrivee'}" @click="focusInput('arrivee')">
+    <div class="flex relative justify-between p-4 rounded-6xl hover:bg-airbnb-hover" :class="[isSelected === 'arrivee' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']" @click="focusInput('arrivee')">
       <div class="flex flex-col pr-4">
         <label for="depart-input" class="text-sm">Arrivée</label>
         <input
@@ -89,13 +96,10 @@ function formatDate (date: Date) {
             v-model="arrivee"
         />
       </div>
-      <button v-if="arrivee" class="hover:bg-white" @click="reset('arrivee')">x</button>
-      <div v-if="isSelected === 'arrivee'" class="absolute top-20 shadow-custom-bottom">
-        <CardCommon :type="isSelected" @update:selected-range="updateDateSelected" />
-      </div>
+      <button v-if="arrivee" class="hover:bg-white hover:rounded-full p-1" @click="reset('arrivee')">x</button>
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
-    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="{'bg-white hover:bg-white': isSelected === 'depart'}" @click="focusInput('depart')">
+    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="[isSelected === 'depart' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']" @click="focusInput('depart')">
       <div class="flex flex-col pr-4">
         <label for="arrivee-input" class="text-sm">Départ</label>
         <input
@@ -106,10 +110,11 @@ function formatDate (date: Date) {
             v-model="depart"
         />
       </div>
-      <button v-if="depart" class="hover:bg-white" @click="reset('depart')">x</button>
+      <button v-if="depart" class="hover:bg-white hover:rounded-full hover:p-2" @click="reset('depart')">x</button>
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
-    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="{'bg-white hover:bg-white': isSelected === 'prix'}" @click="focusInput('prix')">
+    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="[isSelected === 'prix' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']"
+         @click="focusInput('prix')">
       <div class="flex flex-col pr-4">
         <label for="prix-input" class="text-sm">Prix</label>
         <input
