@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 const props = defineProps<{
   start: String;
   end: String;
+  reset: Boolean;
 }>();
 
 const destination = ref("")
@@ -24,6 +25,12 @@ watch(() => props.start, (newVal) => {
 watch(() => props.end, (newVal) => {
   if(newVal) {
     depart.value = newVal
+  }
+}, { immediate: true })
+
+watch(() => props.reset, (newVal) => {
+  if(newVal === true) {
+    resetAllValues()
   }
 }, { immediate: true })
 
@@ -55,20 +62,18 @@ function focusInput (type : string) {
 }
 
 function resetAllValues () {
-  destination.value = ''
   depart.value = ''
   arrivee.value = ''
-  prix.value = ''
   isHidden.value = false
   isSelected.value = ''
-  emit('reset:input', '')
+  emit('update:reset', false)
 }
 
-const emit = defineEmits(['update:input-selected', 'reset:input'])
+const emit = defineEmits(['update:input-selected', 'update:reset'])
 </script>
 
 <template>
-  <div v-click-outside="resetAllValues" class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom" :class="{'bg-airbnb': isHidden}">
+  <div class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom" :class="{'bg-airbnb': isHidden}">
     <div class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover" :class="[isSelected === 'destination' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']"
          @click="focusInput('destination')">
       <div class="flex flex-col pr-4">

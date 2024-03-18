@@ -9,13 +9,12 @@ import router from "~/router";
 
 import type { RangeDateSelected } from "~/types/rangeDateSelected.type.ts";
 
-
 const route = useRoute()
 const connexionStore = useConnexionStore()
 const inputType = ref('')
 const start = ref('')
 const end = ref('')
-
+const reset = ref(false)
 
 onMounted(() => {
   if (!localStorage.getItem('token') && route.query.token) {
@@ -48,10 +47,8 @@ function formatDate (date: Date) {
   return `${day}/${month}/${year}`;
 }
 
-function resetInput () {
-  inputType.value = ''
-  start.value = ''
-  end.value = ''
+function updateReset () {
+  reset.value = true
 }
 
 </script>
@@ -61,9 +58,9 @@ function resetInput () {
     <div>
       <MenuConnexion/>
     </div>
-    <div class="w-full flex justify-center mt-10">
+    <div v-click-outside="updateReset" class="w-full flex justify-center mt-10">
       <div class="flex flex-col absolute">
-        <Input :start="start" :end="end" @update:input-selected="updateInput" @reset:input="resetInput"/>
+        <Input :start="start" :end="end" :reset="reset" @update:input-selected="updateInput" @update:reset="reset = false"/>
         <div v-if="inputType === 'depart' || inputType === 'arrivee'" class="mt-3 relative shadow-custom-bottom">
           <CardCommon :type="inputType" @update:selected-range="updateRange"/>
         </div>
