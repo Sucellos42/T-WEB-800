@@ -7,6 +7,6 @@ cd client && npm run lint && npm run format
 tsc --noEmit
 
 # Server side
-cd epicroad-api && npm run lint && npm run format
+cd ../epicroad-api && npm run lint && npm run format
 tsc --noEmit
 
