@@ -1,0 +1,60 @@
+name: CI Workflow
+
+on:
+  push:
+    branches: [CI/CD]
+  pull-request:
+    branches: [CI/CD]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-keys.outputs.backend }}-${{ steps.cache-keys.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: cache-keys
+        run: |
+          echo "::set-output name=backend::$(find backend -type f -exec md5sum {} + | sort -k 2 | md5sum | awk '{print $1}')"
+          echo "::set-output name=frontend::$(find frontend -type f -exec md5sum {} + | sort -k 2 | md5sum | awk '{print $1}')"
+  build-and-test:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.X, 21.X]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: |
+            epicroad-api/package-lock.json
+            client/package-lock.json
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            backend/node_modules
+            frontend/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}-${{ matrix.node-version }}
+
+      - name: Install Backend Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          cd epicroad-api
+          npm install
+
+      - name: Install Frontend Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          cd frontend
+          npm install
+
+
+
