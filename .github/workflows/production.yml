@@ -47,7 +47,7 @@ jobs:
       - name: Install Backend Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          cd epicroad-api
+          cd backend
           npm install
 
       - name: Install Frontend Dependencies
@@ -55,6 +55,46 @@ jobs:
         run: |
           cd frontend
           npm install
+
+      - name: Linting Backend
+        run: |
+          cd backend
+          npm run lint
+
+      - name: Linting Frontend
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Compile Backend
+        run: |
+          cd backend
+          npm run build
+
+      - name: Compile Frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Run Backend Unit Tests
+        run: |
+          cd backend
+          npm test
+
+      - name: Run Frontend Unit Tests
+        run: |
+          cd frontend
+          npm test
+
+      - name: Backend Security Audit
+        run: |
+          cd backend
+          npm audit
+
+      - name: Frontend Security Audit
+        run: |
+          cd frontend
+          npm audit
 
 
 
