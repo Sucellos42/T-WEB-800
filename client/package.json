@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
@@ -28,6 +30,7 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",
+    "vue-eslint-parser": "^9.4.2",
     "vue-tsc": "^1.8.27"
   }
 }
