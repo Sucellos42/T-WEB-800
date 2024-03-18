@@ -12,6 +12,7 @@ const sendMessage = () => {
     });
     valueMessage.value = '';
   }
+  console.log("valueMessage", valueMessage.value);
 };
 </script>
 
