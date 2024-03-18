@@ -1,19 +1,7 @@
 {
-  "*.ts": [
-    "prettier --write",
-    "eslint"
-  ],
-  "*.html": [
-    "eslint",
-    "prettier --write"
-  ],
-  "*.scss": "prettier --write",
   "client/src/**/*.{js,ts,vue,html,css}": [
-    "eslint --fix",
-    "prettier --write"
-  ],
-  "epicroad-api/src/**/*.{js,ts}": [
-    "eslint --fix",
-    "prettier --write"
+    "cd client && npm run lint",
+    "cd client && npm run format",
+    "mkdir hello"
   ]
 }
