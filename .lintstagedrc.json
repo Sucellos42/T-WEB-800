@@ -1,0 +1,12 @@
+{
+  "*.ts": [
+    "prettier --write",
+    "eslint",
+    "tsc --noEmit"
+  ],
+  "*.html": [
+    "eslint",
+    "prettier --write"
+  ],
+  "*.scss": "prettier --write"
+}
