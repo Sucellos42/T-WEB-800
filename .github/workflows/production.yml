@@ -3,8 +3,6 @@ name: CI Workflow
 on:
   push:
     branches: [CI/CD]
-  pull-request:
-    branches: [CI/CD]
 
 jobs:
   setup:
