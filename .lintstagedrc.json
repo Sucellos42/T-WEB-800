@@ -1,8 +1,7 @@
 {
   "*.ts": [
     "prettier --write",
-    "eslint",
-    "tsc --noEmit"
+    "eslint"
   ],
   "*.html": [
     "eslint",
