@@ -10,7 +10,7 @@ jobs:
     outputs:
       cache-key: ${{ steps.cache-keys.outputs.backend }}-${{ steps.cache-keys.outputs.frontend }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: cache-keys
         run: |
           echo "::set-output name=backend::$(find backend -type f -exec md5sum {} + | sort -k 2 | md5sum | awk '{print $1}')"
@@ -28,7 +28,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm audi
+          cache: npm
+
+      - name: Install Backend Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          cd epicroad-api
+          npm install
+
 #      - uses: actions/checkout@v4
 #      - name: Use Node.js ${{ matrix.node-version }}
 #      - uses: actions/setup-node@v4
