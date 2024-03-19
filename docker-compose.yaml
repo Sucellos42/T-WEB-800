@@ -1,28 +1,39 @@
 services:
-  api:
-    container_name: nestjs
-    image: nestjs-dev
-    restart: unless-stopped
+#  api:
+#    container_name: nestjs
+#    image: nestjs-dev
+#    restart: unless-stopped
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
+#      # ✨ Target the dev stage
+#      target: dev
+#    # Mount host directory to docker container to support watch mode
+#    volumes:
+#      - .:/app/backend
+#      # This ensures that the NestJS container manages the node_modules folder
+#      # rather than synchronizes it with the host machine
+#      - /app/node_modules
+#    env_file:
+#      - docker.env
+#    ports:
+#      - 3333:3000
+#    #    networks:
+#    #      - nest
+#    #    depends_on:
+#    #      - postgres
+#    command: pnpm start:dev
+  frontend:
+    container_name: vuejs-dev
     build:
-      context: ./backend
+      context: ./frontend
       dockerfile: Dockerfile
-      # ✨ Target the dev stage
       target: dev
-    # Mount host directory to docker container to support watch mode
+    depends_on:
+      - api
     volumes:
-      - .:/app
-      # This ensures that the NestJS container manages the node_modules folder
-      # rather than synchronizes it with the host machine
+      - .:/app/frontend
       - /app/node_modules
-    env_file:
-      - docker.env
     ports:
-      - 3333:3000
-    #    networks:
-    #      - nest
-    #    depends_on:
-    #      - postgres
-    command: pnpm start:dev
-#    command: tail -f /dev/null
-
+      - 5173:5173
   # ...other services
