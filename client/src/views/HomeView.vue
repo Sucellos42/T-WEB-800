@@ -29,7 +29,9 @@ onMounted(() => {
 })
 
 function updateInput (val: string) {
+  console.log('val', val)
   inputType.value = val
+  console.log('inputType', inputType.value)
 }
 
 function updateRange (val: RangeDateSelected ) {
@@ -49,6 +51,11 @@ function formatDate (date: Date) {
 
 function updateReset () {
   reset.value = true
+  inputType.value = ''
+}
+
+function resetInputValue (val: string) {
+  inputType.value = val
 }
 
 </script>
@@ -60,13 +67,12 @@ function updateReset () {
     </div>
     <div v-click-outside="updateReset" class="w-full flex justify-center mt-10">
       <div class="flex flex-col absolute">
-        <Input :start="start" :end="end" :reset="reset" @update:input-selected="updateInput" @update:reset="reset = false"/>
+        <Input :start="start" :end="end" :reset="reset" @update:input-selected="updateInput" @update:reset="reset = false" @reset:input="resetInputValue"/>
         <div v-if="inputType === 'depart' || inputType === 'arrivee'" class="mt-3 relative shadow-custom-bottom">
           <CardCommon :type="inputType" @update:selected-range="updateRange"/>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 

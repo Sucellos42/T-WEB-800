@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps, watch, defineEmits } from "vue"
+import { ref, defineProps, watch, computed, defineEmits } from "vue"
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 const props = defineProps<{
@@ -14,6 +14,15 @@ const arrivee = ref("")
 const prix = ref("")
 const isSelected = ref("")
 const isHidden = ref(false)
+
+
+computed(() => {
+  if((depart.value && arrivee.value)) {
+    emit('reset:input', '')
+    return
+  }
+  return
+})
 
 
 watch(() => props.start, (newVal) => {
@@ -56,6 +65,7 @@ function reset (type : string) {
 function focusInput (type : string) {
   isSelected.value = type
   if(type === 'arrivee' || type === 'depart') {
+    console.log('type', type)
     emit('update:input-selected', type)
   }
   isHidden.value = true
@@ -69,7 +79,7 @@ function resetAllValues () {
   emit('update:reset', false)
 }
 
-const emit = defineEmits(['update:input-selected', 'update:reset'])
+const emit = defineEmits(['update:input-selected', 'update:reset', 'reset:input'])
 </script>
 
 <template>
