@@ -46,6 +46,7 @@ watch(() => props.reset, (newVal) => {
 function reset (type : string) {
   switch (type) {
     case 'destination':
+      console.log('type', type)
       destination.value = ''
       break
     case 'depart':
@@ -114,7 +115,7 @@ const emit = defineEmits(['update:input-selected', 'update:reset', 'reset:input'
       <button v-if="arrivee" class="hover:bg-white hover:rounded-full p-1" @click="reset('arrivee')">x</button>
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
-    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="[isSelected === 'depart' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']" @click="focusInput('depart')">
+    <div class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover" :class="[isSelected === 'depart' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']" @click="focusInput('depart')">
       <div class="flex flex-col pr-4">
         <label for="arrivee-input" class="text-sm">Départ</label>
         <input
@@ -128,7 +129,7 @@ const emit = defineEmits(['update:input-selected', 'update:reset', 'reset:input'
       <button v-if="depart" class="hover:bg-white hover:rounded-full hover:p-2" @click="reset('depart')">x</button>
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
-    <div class="flex justify-between p-4 rounded-6xl hover:bg-gray-100" :class="[isSelected === 'prix' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']"
+    <div class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover" :class="[isSelected === 'prix' ? 'bg-white hover:bg-white' : 'hover:bg-airbnb-hover']"
          @click="focusInput('prix')">
       <div class="flex flex-col pr-4">
         <label for="prix-input" class="text-sm">Prix</label>

@@ -29,9 +29,7 @@ onMounted(() => {
 })
 
 function updateInput (val: string) {
-  console.log('val', val)
   inputType.value = val
-  console.log('inputType', inputType.value)
 }
 
 function updateRange (val: RangeDateSelected ) {

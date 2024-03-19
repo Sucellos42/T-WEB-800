@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, ComputedRef} from "vue";
+import {computed, ref, ComputedRef, watchR} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import CardCommon from "~/components/common/CardCommon.vue";
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts'
@@ -20,8 +20,8 @@ function reset (): void {
 </script>
 
 <template>
-  <div v-click-outside="reset" @click="isSelected = !isSelected" class="flex relative justify-end w-screen">
-    <div class="inline-flex mt-4 mr-4 ml-4 p-3 items-center rounded-full border-1.5 border-gray-200 hover:shadow-custom-bottom" :class="{'shadow-custom-bottom': isSelected}">
+  <div class="flex relative justify-end w-screen">
+    <div v-click-outside="reset" @click="isSelected = !isSelected" class="inline-flex mt-4 mr-4 ml-4 p-3 items-center rounded-full border-1.5 border-gray-200 hover:shadow-custom-bottom" :class="{'shadow-custom-bottom': isSelected}">
       <font-awesome-icon :icon="['fas', 'bars']" class="text-gray-500  mr-4"/>
       <font-awesome-icon v-if="!token" :icon="['fas', 'user']" class="p-2 text-white bg-gray-500 rounded-full"/>
       <span v-else class="flex p-2 text-white bg-gray-500 rounded-full w-8 h-8 items-center justify-center">{{ initialName }}</span>
