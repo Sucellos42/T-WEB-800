@@ -4,7 +4,7 @@ services:
     image: nestjs-dev
     restart: unless-stopped
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
       # ✨ Target the dev stage
       target: dev
@@ -17,11 +17,12 @@ services:
     env_file:
       - docker.env
     ports:
-      - 8082:8082
-    networks:
-      - nest
-    depends_on:
-      - postgres
-    command: npx nest start --watch
+      - 3333:3000
+    #    networks:
+    #      - nest
+    #    depends_on:
+    #      - postgres
+    command: pnpm start:dev
+#    command: tail -f /dev/null
 
   # ...other services
