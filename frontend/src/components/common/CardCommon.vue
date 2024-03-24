@@ -2,22 +2,16 @@
 import { defineProps, ref, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { DatePicker as VDatePicker } from 'v-calendar';
-import { DateModelPicker } from '~/types/VCalendar.type.ts';
+import { DatePickerRange } from '~/types/datePickerRange.type';
 
 const props = defineProps<{
   type: string;
 }>();
 
-const selectedRange = ref<DateModelPicker | undefined>({
-  start: '',
-  end: '',
+const selectedRange = ref<DatePickerRange>({
+  start: new Date(),
+  end: new Date()
 });
-
-const range = ref<DateModelPicker>({
-  start: '',
-  end: '',
-});
-
 
 const attributes = ref([{}]);
 
@@ -36,7 +30,7 @@ watch(
       'start' in newRange &&
       'end' in newRange
     ) {
-      const range: DateModelPicker = newRange;
+      const range: DatePickerRange = newRange;
       if (range.start && range.end) {
         attributes.value = [
           {
@@ -79,10 +73,11 @@ const emit = defineEmits(['update:selectedRange']);
     </span>
   </div>
   <VDatePicker
-    v-if="props.type === ('arrivee' || 'depart')"
-    v-model.range="usedRange"
+    v-if="props.type === 'arrivee' || props.type === 'depart'"
+    v-model.range="selectedRange as unknown as DatePickerRange"
     :attributes="attributes"
     :min-date="new Date()"
+    mode="dateTime"
     expanded
   />
   <div v-if="props.type === 'prix'"></div>
