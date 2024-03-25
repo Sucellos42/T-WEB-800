@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+#npx lint-staged
+
+# Client side
+echo "Running lint-staged for frontend"
+#cd frontend && npm run lint && npm run format && pnpm build
+
+# Server side
+#cd ../backend && npm run lint && npm run format && pnpm build
