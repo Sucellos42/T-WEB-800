@@ -57,6 +57,7 @@ const emit = defineEmits(['update:selectedRange']);
 </script>
 
 <template>
+  <pre>{{attributes}}</pre>
   <div
     v-if="props.type === 'connexion'"
     class="flex flex-col border-0.5 border-gray-300 rounded-md p-4 gap-y-0.5"
