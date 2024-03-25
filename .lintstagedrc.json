@@ -1,0 +1,6 @@
+{
+  "client/src/**/*.{js,ts,vue,html,css}": [
+    "cd client && npm run lint",
+    "cd client && npm run format"
+  ]
+}
