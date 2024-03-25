@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const selectedRange = ref<DatePickerRange>({
   start: new Date(),
-  end: new Date()
+  end: new Date(),
 });
 
 const attributes = ref([{}]);
@@ -18,7 +18,6 @@ const attributes = ref([{}]);
 const connexionStore = useConnexionStore();
 const token: string | null = localStorage.getItem('token') ?? null;
 const log: string = token ? 'Déconnexion' : 'Connexion';
-
 
 watch(
   selectedRange,
@@ -53,11 +52,10 @@ watch(
 );
 
 const emit = defineEmits(['update:selectedRange']);
-
 </script>
 
 <template>
-  <pre>{{attributes}}</pre>
+  <pre>{{ attributes }}</pre>
   <div
     v-if="props.type === 'connexion'"
     class="flex flex-col border-0.5 border-gray-300 rounded-md p-4 gap-y-0.5"
