@@ -4,7 +4,10 @@
 
 # Client side
 echo "Running lint-staged for frontend"
-#cd frontend && npm run lint && npm run format && pnpm build
+cd frontend && npm run lint && npm run format && npm run build
+#tsc --noEmit
 
 # Server side
-#cd ../backend && npm run lint && npm run format && pnpm build
+cd ../backend && npm run lint && npm run format
+#tsc --noEmit
+#
