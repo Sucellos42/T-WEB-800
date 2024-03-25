@@ -115,7 +115,6 @@ const emit = defineEmits([
         <label for="depart-input" class="text-sm">Destination</label>
         <input
           id="depart-input"
-          ref="inputRef"
           v-model="destination"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
