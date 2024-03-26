@@ -15,14 +15,6 @@ const prix = ref('');
 const isSelected = ref('');
 const isHidden = ref(false);
 
-computed(() => {
-  if (depart.value && arrivee.value) {
-    emit('reset:input', '');
-    return null;
-  }
-  return null;
-});
-
 watch(
   () => props.start,
   (newVal) => {
@@ -56,10 +48,10 @@ watch(
 function resetInput(type: string) {
   switch (type) {
     case 'destination':
-      console.log('type', type);
       destination.value = '';
       break;
     case 'depart':
+      console.log('1')
       depart.value = '';
       break;
     case 'arrivee':
@@ -82,10 +74,15 @@ function focusInput(type: string) {
 }
 
 function resetAllValues() {
-  depart.value = '';
-  arrivee.value = '';
-  isHidden.value = false;
-  isSelected.value = '';
+  if(depart.value && arrivee.value) {
+    isHidden.value = false;
+    isSelected.value = '';
+  } else {
+    depart.value = '';
+    arrivee.value = '';
+    isHidden.value = false;
+    isSelected.value = '';
+  }
   emit('update:reset', false);
 }
 
@@ -122,7 +119,7 @@ const emit = defineEmits([
       </div>
       <button
         v-if="destination"
-        class="hover:bg-white hover:rounded-full p-1"
+        class="hover:text-red-500"
         @click="resetInput('destination')"
       >
         x
@@ -151,7 +148,7 @@ const emit = defineEmits([
       </div>
       <button
         v-if="arrivee"
-        class="hover:bg-white hover:rounded-full p-1"
+        class="hover:text-red-500"
         @click="resetInput('arrivee')"
       >
         x
@@ -180,7 +177,7 @@ const emit = defineEmits([
       </div>
       <button
         v-if="depart"
-        class="hover:bg-white hover:rounded-full hover:p-2"
+        class="hover:text-red-500"
         @click="resetInput('depart')"
       >
         x
