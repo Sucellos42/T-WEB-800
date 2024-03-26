@@ -114,7 +114,7 @@ const emit = defineEmits([
       <div class="flex flex-col pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
         <input
-          id="depart-input"
+          id="destination-input"
           v-model="destination"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
