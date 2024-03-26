@@ -76,7 +76,6 @@ function resetInput(type: string) {
 function focusInput(type: string) {
   isSelected.value = type;
   if (type === 'arrivee' || type === 'depart') {
-    console.log('type', type);
     emit('update:input-selected', type);
   }
   isHidden.value = true;
@@ -147,6 +146,7 @@ const emit = defineEmits([
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
           placeholder="Quand ?"
+          :disabled="true"
         />
       </div>
       <button
@@ -175,6 +175,7 @@ const emit = defineEmits([
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
           placeholder="Quand ?"
+          :disabled="true"
         />
       </div>
       <button
