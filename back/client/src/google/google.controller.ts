@@ -1,17 +1,18 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { GoogleService} from "./google.service";
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('google')
 export class GoogleController {
-  constructor(@Inject('AUTH_SERVICE') private client: ClientProxy) {}
+  constructor(private readonly googleService: GoogleService) {}
 
   @Get()
-  getGoogleAuth() {
-    return this.client.send({ cmd: 'get_google_auth' }, {});
-  }
+  @UseGuards(AuthGuard('google'))
+  async googleAuth(@Req() req) {}
 
   @Get('redirect')
-  getGoogleRedirect() {
-    return this.client.send({ cmd: 'get_google_redirect' }, {});
+  @UseGuards(AuthGuard('google'))
+  googleAuthRedirect(@Req() req) {
+    return this.googleService.googleLogin(req)
   }
 }

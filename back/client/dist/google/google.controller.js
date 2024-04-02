@@ -14,34 +14,36 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoogleController = void 0;
 const common_1 = require("@nestjs/common");
-const microservices_1 = require("@nestjs/microservices");
+const google_service_1 = require("./google.service");
+const passport_1 = require("@nestjs/passport");
 let GoogleController = class GoogleController {
-    constructor(client) {
-        this.client = client;
+    constructor(googleService) {
+        this.googleService = googleService;
     }
-    getGoogleAuth() {
-        return this.client.send({ cmd: 'get_google_auth' }, {});
-    }
-    getGoogleRedirect() {
-        return this.client.send({ cmd: 'get_google_redirect' }, {});
+    async googleAuth(req) { }
+    googleAuthRedirect(req) {
+        return this.googleService.googleLogin(req);
     }
 };
 exports.GoogleController = GoogleController;
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('google')),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], GoogleController.prototype, "getGoogleAuth", null);
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], GoogleController.prototype, "googleAuth", null);
 __decorate([
     (0, common_1.Get)('redirect'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('google')),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], GoogleController.prototype, "getGoogleRedirect", null);
+], GoogleController.prototype, "googleAuthRedirect", null);
 exports.GoogleController = GoogleController = __decorate([
     (0, common_1.Controller)('google'),
-    __param(0, (0, common_1.Inject)('AUTH_SERVICE')),
-    __metadata("design:paramtypes", [microservices_1.ClientProxy])
+    __metadata("design:paramtypes", [google_service_1.GoogleService])
 ], GoogleController);
 //# sourceMappingURL=google.controller.js.map
