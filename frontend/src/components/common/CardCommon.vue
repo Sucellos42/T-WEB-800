@@ -67,8 +67,7 @@ const emit = defineEmits(['update:selectedRange']);
     expanded
   />
   <div v-if="props.type === 'evenement'" class="flex items-center gap-1">
-    <font-awesome-icon :icon="['fas', 'arrow-down']" class="text-gray-500"  />
-
+    <font-awesome-icon :icon="['fas', 'arrow-down']" class="text-gray-500" />
   </div>
 </template>
 

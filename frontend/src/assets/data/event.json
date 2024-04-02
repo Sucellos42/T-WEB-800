@@ -1,5 +1,5 @@
 {
-  "Lieu":  {
+  "Lieu": {
     "icon": "fa fa-map-marker",
     "children": [
       "Commerce de détail",
@@ -20,12 +20,7 @@
   },
   "Produit": {
     "icon": "fa fa-shopping-cart",
-    "children": [
-      "Visite",
-      "Produit d'hébergement",
-      "Pratique",
-      "Location"
-    ]
+    "children": ["Visite", "Produit d'hébergement", "Pratique", "Location"]
   },
   "ItineraireTouristique": {
     "icon": "fa fa-road",

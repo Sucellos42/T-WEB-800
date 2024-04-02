@@ -3,7 +3,13 @@ import router from '~/router';
 import App from '~/App.vue';
 import { createPinia } from 'pinia';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faUser, faBars, faArrowDown, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faUser,
+  faBars,
+  faArrowDown,
+  faArrowRight,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { clickOutside } from '~/directive/clickOutside.ts';
 import { setupCalendar, DatePicker } from 'v-calendar';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps, watch, computed, defineEmits } from 'vue';
+import { ref, defineProps, watch, defineEmits } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps<{
@@ -51,7 +51,7 @@ function resetInput(type: string) {
       destination.value = '';
       break;
     case 'depart':
-      console.log('1')
+      console.log('1');
       depart.value = '';
       break;
     case 'arrivee':
@@ -74,7 +74,7 @@ function focusInput(type: string) {
 }
 
 function resetAllValues() {
-  if(depart.value && arrivee.value) {
+  if (depart.value && arrivee.value) {
     isHidden.value = false;
     isSelected.value = '';
   } else {
