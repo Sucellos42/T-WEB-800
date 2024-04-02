@@ -11,7 +11,7 @@ const props = defineProps<{
 const destination = ref('');
 const depart = ref('');
 const arrivee = ref('');
-const prix = ref('');
+const evenement = ref('');
 const isSelected = ref('');
 const isHidden = ref(false);
 
@@ -58,7 +58,7 @@ function resetInput(type: string) {
       arrivee.value = '';
       break;
     case 'prix':
-      prix.value = '';
+      evenement.value = '';
       break;
     default:
       break;
@@ -67,7 +67,7 @@ function resetInput(type: string) {
 
 function focusInput(type: string) {
   isSelected.value = type;
-  if (type === 'arrivee' || type === 'depart') {
+  if (type === 'arrivee' || type === 'depart' || type === 'evenement') {
     emit('update:input-selected', type);
   }
   isHidden.value = true;
@@ -187,20 +187,21 @@ const emit = defineEmits([
     <div
       class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
       :class="[
-        isSelected === 'prix'
+        isSelected === 'evenement'
           ? 'bg-white hover:bg-white'
           : 'hover:bg-airbnb-hover',
       ]"
-      @click="focusInput('prix')"
+      @click="focusInput('evenement')"
     >
       <div class="flex flex-col pr-4">
-        <label for="prix-input" class="text-sm">Prix</label>
+        <label for="prix-input" class="text-sm">Evénements</label>
         <input
           id="prix-input"
-          v-model="prix"
+          v-model="evenement"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
-          placeholder="Indiquez votre prix"
+          placeholder="Choisissez un événement"
+          :disabled="true"
         />
       </div>
       <button class="bg-red-500 rounded-full p-2.5">

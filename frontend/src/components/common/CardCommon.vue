@@ -2,6 +2,7 @@
 import { defineProps, ref, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { DatePicker as VDatePicker } from 'v-calendar';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
 
 const props = defineProps<{
@@ -65,7 +66,10 @@ const emit = defineEmits(['update:selectedRange']);
     model="dateTime"
     expanded
   />
-  <div v-if="props.type === 'prix'"></div>
+  <div v-if="props.type === 'evenement'" class="flex items-center gap-1">
+    <font-awesome-icon :icon="['fas', 'arrow-down']" class="text-gray-500"  />
+
+  </div>
 </template>
 
 <style scoped></style>

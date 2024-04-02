@@ -1,0 +1,51 @@
+{
+  "Lieu":  {
+    "icon": "fa fa-map-marker",
+    "children": [
+      "Commerce de détail",
+      "Site naturel",
+      "Site sportif, récréatif et de loisirs",
+      "Service d'information touristique",
+      "Hébergement",
+      "Site d'affaires",
+      "Prestataire d'activité",
+      "Lieu de santé",
+      "Fournisseur de dégustation",
+      "Service pratique",
+      "Transport",
+      "Site culturel",
+      "Restauration",
+      "Prestataire de service"
+    ]
+  },
+  "Produit": {
+    "icon": "fa fa-shopping-cart",
+    "children": [
+      "Visite",
+      "Produit d'hébergement",
+      "Pratique",
+      "Location"
+    ]
+  },
+  "ItineraireTouristique": {
+    "icon": "fa fa-road",
+    "children": [
+      "Itinéraire sous-marin",
+      "Itinéraire fluvial ou maritime",
+      "Itinéraire cyclable",
+      "Itinéraire pédestre",
+      "Itinéraire routier",
+      "Itinéraire équestre"
+    ]
+  },
+  "Evenement": {
+    "icon": "fa fa-calendar",
+    "children": [
+      "Événement sports et loisirs",
+      "Événement professionnel d'entreprise",
+      "Événement social",
+      "Événement culturel",
+      "Événement commercial"
+    ]
+  }
+}
