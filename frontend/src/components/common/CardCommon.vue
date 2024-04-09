@@ -47,7 +47,7 @@ watch(
 );
 
 function openSubInput(type: string) {
-  console.log(typeSubInput.value, type)
+  console.log(typeSubInput.value, type);
   if (typeSubInput.value.name === type) {
     typeSubInput.value.open = !typeSubInput.value.open;
     return;
@@ -84,11 +84,7 @@ const emit = defineEmits(['update:selectedRange']);
     expanded
   />
   <div v-if="props.type === 'evenement'" class="grid grid-cols-4 m-2 gap-1">
-    <div
-      v-for="(event, name) of Events"
-      :key="name"
-      class="pr-2"
-    >
+    <div v-for="(event, name) of Events" :key="name" class="pr-2">
       <div class="flex justify-between items-center">
         <div class="text-gray-600 flex items-center">
           <font-awesome-icon :icon="['fas', event.icon]" class="pr-2" />
@@ -96,11 +92,19 @@ const emit = defineEmits(['update:selectedRange']);
         </div>
         <font-awesome-icon
           class="text-gray-600"
-          :icon="['fas', typeSubInput.open && name === typeSubInput.name ? 'arrow-down' : 'arrow-up']"
+          :icon="[
+            'fas',
+            typeSubInput.open && name === typeSubInput.name
+              ? 'arrow-down'
+              : 'arrow-up',
+          ]"
           @click="openSubInput(name)"
         />
       </div>
-      <div v-if="(name === typeSubInput.name) && typeSubInput.open" class="max-w-48">
+      <div
+        v-if="name === typeSubInput.name && typeSubInput.open"
+        class="max-w-48"
+      >
         <div
           v-for="(child, indexChild) of event.children"
           :key="indexChild"
