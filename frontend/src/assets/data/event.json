@@ -1,6 +1,6 @@
 {
   "Lieu": {
-    "icon": "fa fa-map-marker",
+    "icon": "location-dot",
     "children": [
       "Commerce de détail",
       "Site naturel",
@@ -19,11 +19,11 @@
     ]
   },
   "Produit": {
-    "icon": "fa fa-shopping-cart",
+    "icon": "cart-shopping",
     "children": ["Visite", "Produit d'hébergement", "Pratique", "Location"]
   },
-  "ItineraireTouristique": {
-    "icon": "fa fa-road",
+  "Itineraire touristique": {
+    "icon": "road",
     "children": [
       "Itinéraire sous-marin",
       "Itinéraire fluvial ou maritime",
@@ -33,8 +33,8 @@
       "Itinéraire équestre"
     ]
   },
-  "Evenement": {
-    "icon": "fa fa-calendar",
+  "Evénement": {
+    "icon": "calendar",
     "children": [
       "Événement sports et loisirs",
       "Événement professionnel d'entreprise",

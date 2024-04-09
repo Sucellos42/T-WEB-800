@@ -95,7 +95,7 @@ const emit = defineEmits([
 
 <template>
   <div
-    class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom"
+    class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
     :class="{ 'bg-airbnb': isHidden }"
   >
     <div
