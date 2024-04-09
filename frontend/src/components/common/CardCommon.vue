@@ -4,6 +4,7 @@ import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
+import { subInput } from '~/types/cardCommon/subInput.type.ts';
 import Events from '~/assets/data/event.json';
 
 const props = defineProps<{
@@ -15,7 +16,10 @@ const selectedRange = ref({
   end: new Date(),
 } as RangeDateSelected);
 const attributes = ref([{}]);
-const typeSubInput = ref('');
+const typeSubInput = ref({
+  name: '',
+  open: false,
+} as subInput);
 const eventSelected = ref('');
 
 const connexionStore = useConnexionStore();
@@ -43,11 +47,13 @@ watch(
 );
 
 function openSubInput(type: string) {
-  if (typeSubInput.value === type) {
-    typeSubInput.value = '';
+  console.log(typeSubInput.value, type)
+  if (typeSubInput.value.name === type) {
+    typeSubInput.value.open = !typeSubInput.value.open;
     return;
   }
-  typeSubInput.value = type;
+  typeSubInput.value.name = type;
+  typeSubInput.value.open = true;
 }
 
 const emit = defineEmits(['update:selectedRange']);
@@ -77,12 +83,11 @@ const emit = defineEmits(['update:selectedRange']);
     model="dateTime"
     expanded
   />
-  <div v-if="props.type === 'evenement'" class="grid grid-cols-2 m-2 gap-1">
+  <div v-if="props.type === 'evenement'" class="grid grid-cols-4 m-2 gap-1">
     <div
       v-for="(event, name) of Events"
       :key="name"
       class="pr-2"
-      @click="openSubInput(name)"
     >
       <div class="flex justify-between items-center">
         <div class="text-gray-600 flex items-center">
@@ -91,17 +96,18 @@ const emit = defineEmits(['update:selectedRange']);
         </div>
         <font-awesome-icon
           class="text-gray-600"
-          :icon="['fas', name === typeSubInput ? 'arrow-down' : 'arrow-up']"
+          :icon="['fas', typeSubInput.open && name === typeSubInput.name ? 'arrow-down' : 'arrow-up']"
+          @click="openSubInput(name)"
         />
       </div>
-      <div v-if="name === typeSubInput" class="m-2">
+      <div v-if="(name === typeSubInput.name) && typeSubInput.open" class="max-w-48">
         <div
           v-for="(child, indexChild) of event.children"
           :key="indexChild"
           class="flex items-center"
         >
           <input v-model="eventSelected" type="checkbox" class="mr-2" />
-          <span class="text-gray-500 text-sm">{{ child }}</span>
+          <span class="text-gray-500 text-xs">{{ child }}</span>
         </div>
       </div>
     </div>
