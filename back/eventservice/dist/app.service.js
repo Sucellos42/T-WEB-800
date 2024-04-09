@@ -8,23 +8,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
+const mariadb = require("mariadb");
+const pool = mariadb.createPool({
+    host: '10.18.205.115',
+    user: 'user',
+    password: 'user',
+    database: 'db_web'
+});
 let AppService = class AppService {
-    constructor() {
-        this.events = [
-            {
-                id: 1,
-                title: 'Spectacle',
-                place: 'Nancy',
-            },
-            {
-                id: 2,
-                title: 'Marché',
-                place: 'Dijon',
-            },
-        ];
-    }
-    getEvents() {
-        return this.events;
+    async getEventsByCity(city) {
+        let eventsByCity = [];
+        try {
+            const connection = await pool.getConnection();
+            const result = await connection.query('SELECT * FROM events_by_address WHERE city = ? LIMIT 50', [city]);
+            connection.release();
+            for (let i = 0; i < result.length; i++) {
+                eventsByCity.push({
+                    id: result[i].id,
+                    identifier: result[i].identifier,
+                    label: result[i].label,
+                    description: result[i].description,
+                    address: result[i].address,
+                    city: result[i].city,
+                    longitude: result[i].longitude,
+                    latitude: result[i].latitude,
+                    event_type: result[i].event_type
+                });
+            }
+            return eventsByCity;
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
 };
 exports.AppService = AppService;

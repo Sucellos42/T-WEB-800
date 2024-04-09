@@ -1,5 +1,11 @@
 export interface EventInterface {
     id: number;
-    title: string;
-    place?: string;
+    identifier: string;
+    label: string;
+    description: string;
+    address: string;
+    city: string;
+    longitude: number;
+    latitude: number;
+    event_type: string;
 }

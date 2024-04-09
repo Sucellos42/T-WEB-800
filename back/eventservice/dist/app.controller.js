@@ -17,17 +17,17 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
-    getEvents() {
-        return this.appService.getEvents();
+    async getEventsByCity(city) {
+        return this.appService.getEventsByCity(city);
     }
 };
 exports.AppController = AppController;
 __decorate([
     (0, microservices_1.MessagePattern)({ cmd: 'get_events' }),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Array)
-], AppController.prototype, "getEvents", null);
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "getEventsByCity", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

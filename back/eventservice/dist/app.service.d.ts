@@ -1,5 +1,4 @@
 import { EventInterface } from './interfaces/event.interface';
 export declare class AppService {
-    events: EventInterface[];
-    getEvents(): EventInterface[];
+    getEventsByCity(city: string): Promise<EventInterface[]>;
 }
