@@ -16,11 +16,7 @@ const selectedRange = ref({
   end: new Date(),
 } as RangeDateSelected);
 const attributes = ref([{}]);
-const typeSubInput = ref({
-  name: '',
-  open: false,
-} as subInput);
-const eventsSelected = ref([] as eventsSelected[]);
+const events = ref([] as eventsSelected);
 
 const connexionStore = useConnexionStore();
 const token: string | null = localStorage.getItem('token') ?? null;
@@ -47,14 +43,14 @@ watch(
 );
 
 function allEventsSelected(event: Event, child: string) {
-  if(event.target.checked) {
-    eventsSelected.value.push(child);
+  const isChecked = (event.target as HTMLInputElement).checked;
+  if (isChecked) {
+    events.value.push(child);
   } else {
-    eventsSelected.value = eventsSelected.value.filter((el) => el !== child);
+    events.value = events.value.filter((el) => el !== child);
   }
-  emit('update:selectedEvents', eventsSelected.value);
+  emit('update:selectedEvents', events.value);
 }
-
 
 const emit = defineEmits(['update:selectedRange', 'update:selectedEvents']);
 </script>
@@ -91,15 +87,17 @@ const emit = defineEmits(['update:selectedRange', 'update:selectedEvents']);
           <span class="text-lg">{{ name }}</span>
         </div>
       </div>
-      <div
-        class="max-w-48"
-      >
+      <div class="max-w-48">
         <div
           v-for="(child, indexChild) of event.children"
           :key="indexChild"
           class="flex items-center"
         >
-          <input @change="allEventsSelected($event, child)" type="checkbox" class="mr-2" />
+          <input
+            type="checkbox"
+            class="mr-2"
+            @change="allEventsSelected($event, child)"
+          />
           <span class="text-gray-500 text-xs">{{ child }}</span>
         </div>
       </div>

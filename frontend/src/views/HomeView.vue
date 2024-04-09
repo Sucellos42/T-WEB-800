@@ -80,7 +80,7 @@ function resetInputValue(val: string) {
           "
           class="mt-3 relative shadow-custom-bottom"
         >
-          <CardCommon :type="inputType" @update:selected-range="updateRange" @update:selectedEvents="" />
+          <CardCommon :type="inputType" @update:selected-range="updateRange" />
         </div>
       </div>
     </div>
