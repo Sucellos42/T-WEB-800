@@ -4,7 +4,6 @@ import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
-import { subInput } from '~/types/cardCommon/subInput.type.ts';
 import Events from '~/assets/data/event.json';
 
 const props = defineProps<{
@@ -16,10 +15,7 @@ const selectedRange = ref({
   end: new Date(),
 } as RangeDateSelected);
 const attributes = ref([{}]);
-const typeSubInput = ref({
-  name: '',
-  open: false,
-} as subInput);
+const typeSubInput = ref('');
 const eventSelected = ref('');
 
 const connexionStore = useConnexionStore();
@@ -47,7 +43,7 @@ watch(
 );
 
 function openSubInput(type: string) {
-  if(typeSubInput.value === type) {
+  if (typeSubInput.value === type) {
     typeSubInput.value = '';
     return;
   }
@@ -82,17 +78,29 @@ const emit = defineEmits(['update:selectedRange']);
     expanded
   />
   <div v-if="props.type === 'evenement'" class="grid grid-cols-2 m-2 gap-1">
-    <div v-for="(event, name) of Events" :key="name" class="pr-2" @click="openSubInput(name)">
+    <div
+      v-for="(event, name) of Events"
+      :key="name"
+      class="pr-2"
+      @click="openSubInput(name)"
+    >
       <div class="flex justify-between items-center">
         <div class="text-gray-600 flex items-center">
           <font-awesome-icon :icon="['fas', event.icon]" class="pr-2" />
           <span class="text-lg">{{ name }}</span>
         </div>
-        <font-awesome-icon class="text-gray-600" :icon="['fas', name === typeSubInput ? 'arrow-down': 'arrow-up']" />
+        <font-awesome-icon
+          class="text-gray-600"
+          :icon="['fas', name === typeSubInput ? 'arrow-down' : 'arrow-up']"
+        />
       </div>
       <div v-if="name === typeSubInput" class="m-2">
-        <div v-for="(child, indexChild) of event.children" :key="indexChild" class="flex items-center">
-          <input type="checkbox" class="mr-2" v-model="eventSelected" />
+        <div
+          v-for="(child, indexChild) of event.children"
+          :key="indexChild"
+          class="flex items-center"
+        >
+          <input v-model="eventSelected" type="checkbox" class="mr-2" />
           <span class="text-gray-500 text-sm">{{ child }}</span>
         </div>
       </div>

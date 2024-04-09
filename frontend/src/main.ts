@@ -13,7 +13,7 @@ import {
   faLocationDot,
   faCartShopping,
   faRoad,
-  faCalendar
+  faCalendar,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { clickOutside } from '~/directive/clickOutside.ts';
@@ -21,7 +21,18 @@ import { setupCalendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
 import './styles/tailwind.css';
 
-library.add(faSearch, faUser, faBars, faArrowDown, faArrowUp, faArrowRight, faLocationDot, faCartShopping, faRoad, faCalendar);
+library.add(
+  faSearch,
+  faUser,
+  faBars,
+  faArrowDown,
+  faArrowUp,
+  faArrowRight,
+  faLocationDot,
+  faCartShopping,
+  faRoad,
+  faCalendar,
+);
 
 const pinia = createPinia();
 const app = createApp(App);
