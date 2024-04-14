@@ -8,6 +8,7 @@ import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import router from '~/router';
 
 import type { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
+import MapCommon from "~/components/events/EventMap.vue";
 
 const route = useRoute();
 const connexionStore = useConnexionStore();
@@ -63,7 +64,7 @@ function resetInputValue(val: string) {
       <MenuConnexion />
     </div>
     <div v-click-outside="updateReset" class="w-full flex justify-center mt-10">
-      <div class="flex flex-col absolute">
+      <div class="flex flex-col">
         <Input
           :start="start"
           :end="end"
@@ -80,6 +81,10 @@ function resetInputValue(val: string) {
         </div>
       </div>
     </div>
+    <div>
+      <MapCommon />
+    </div>
+
   </div>
 </template>
 
