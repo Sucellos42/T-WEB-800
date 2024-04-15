@@ -1,8 +1,13 @@
 <template>
   <div class="event-card">
-<!--    <p id="event-card-description">{{ event[3] }}</p>-->
-    <h3>Events</h3>
-    <button @click="$emit('close')">Fermer</button>
+    <h3>{{ props.event[1] }}</h3>
+    <p>{{ props.event[2] }}</p>
+    <p>{{ props.event[3] }}</p>
+    <p>{{ props.event[4] }}</p>
+    <p>{{ props.event[5] }}</p>
+    <div id="event-card-description">
+      <p>{{ props.event[8] }}</p>
+    </div>
   </div>
 </template>
 
@@ -12,8 +17,7 @@ import { Event } from '~/types/eventsTypes';
 
 const props = defineProps<{ event: Event }>();
 
-onMounted(() => {
-});
+onMounted(() => {});
 </script>
 
 <style scoped>
@@ -31,5 +35,6 @@ onMounted(() => {
 #event-card-description {
   max-height: 100px;
   overflow: auto;
+  display: none;
 }
 </style>

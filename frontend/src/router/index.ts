@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '~/views/HomeView.vue';
-import MapView from "~/views/MapView.vue";
+import MapView from '~/views/MapView.vue';
 
 // Définissez vos routes ici
 const routes = [

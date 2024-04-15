@@ -1,9 +1,19 @@
 <template>
-  <div class="sliding-panel" :class="{ 'is-expanded': isExpanded }" @click="handlePanelClick">
+  <div
+    class="sliding-panel"
+    :class="{ 'is-expanded': isExpanded }"
+    @click="handlePanelClick"
+  >
     <div class="handle" @click.stop="togglePanel"></div>
-    <div class="event-list">
-      <!--      <h2>Events</h2>-->
-      <EventCard v-for="event in props.events" :key="event.id" :event="event"/>
+    <div v-if="isExpanded" class="event-list">
+      <!-- Afficher les EventCard seulement si le panneau n'est pas expand -->
+      <EventCard v-for="event in props.events" :key="event[0]" :event="event" />
+    </div>
+    <div v-if="!isExpanded">
+      <!-- Texte affiché quand le panneau est expand -->
+      <p class="event-text">
+        Découvrez les {{ props.events.length }} évènement dans cette zone
+      </p>
     </div>
   </div>
 </template>
@@ -30,16 +40,15 @@ const togglePanel = () => {
 };
 </script>
 
-
 <style scoped>
 .sliding-panel {
+  background-color: #f9f9f9;
   overflow: scroll;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 10%; /* initial height */
-  background: white;
   z-index: 1000;
   transition: height 0.6s ease;
   border-top-left-radius: 2.5rem;
@@ -47,7 +56,7 @@ const togglePanel = () => {
 }
 
 .sliding-panel:before {
-  content: "" !important;
+  content: '' !important;
   display: block !important;
   position: absolute !important;
   top: 8px !important;
@@ -56,7 +65,7 @@ const togglePanel = () => {
   width: 40px !important;
   height: 4px !important;
   border-radius: 4px !important;
-  background-color: rgba(32, 32, 32, 0.2)
+  background-color: rgba(32, 32, 32, 0.2);
 }
 
 .sliding-panel.is-expanded {
@@ -75,4 +84,8 @@ const togglePanel = () => {
   overflow-y: auto;
 }
 
+.event-text {
+  text-align: center;
+  padding: 0.5rem;
+}
 </style>

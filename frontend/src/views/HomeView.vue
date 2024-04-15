@@ -8,7 +8,7 @@ import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import router from '~/router';
 
 import type { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
-import MapCommon from "~/components/events/EventMap.vue";
+import MapCommon from '~/components/events/EventMap.vue';
 
 const route = useRoute();
 const connexionStore = useConnexionStore();
@@ -84,7 +84,6 @@ function resetInputValue(val: string) {
     <div>
       <MapCommon />
     </div>
-
   </div>
 </template>
 
