@@ -1,11 +1,24 @@
 <template>
-  <div id="map"></div>
-  <EventCard
-    v-if="selectedEvent"
-    :event="selectedEvent"
-    @close="selectedEvent = null"
-  />
-  <EventList :events="visibleEvents" />
+  <div class="md:flex max-h-full overflow-hidden">
+    <div class="md:w-3/5 overflow-y-scroll">
+      <EventList :events="visibleEvents" />
+    </div>
+    <div class="md:w-2/5">
+      <div id="map"></div>
+      <EventCard
+        v-if="selectedEvent"
+        :event="selectedEvent"
+        @close="selectedEvent = null"
+      />
+    </div>
+    <div class="event-modal">
+      <EventModal
+        :event="selectedEvent"
+        class="event-modal"
+        @update:event="selectedEvent = $event"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,6 +36,7 @@ import { Event } from '~/types/eventsTypes';
 import eventData from '~/data/events.json';
 import EventCard from '~/components/events/EventCard.vue';
 import EventList from '~/components/events/EventList.vue';
+import EventModal from '~/components/events/EventModal.vue';
 
 const troyesCoordinates = { latitude: 48.297, longitude: 4.074 };
 const selectedEvent = ref<Event | null>(null);
@@ -53,6 +67,7 @@ onMounted(() => {
     return myMap.getBounds().contains(latLng(lat, lng));
   });
 
+  myMap.on('load', () => updateVisibleEvents(myMap));
   myMap.on('moveend', () => updateVisibleEvents(myMap));
   console.log('EventMap mounted', visibleEvents.value);
   //
@@ -61,6 +76,7 @@ onMounted(() => {
       .addTo(myMap)
       .on('click', () => {
         selectedEvent.value = event;
+        console.log('selectedEvent:', selectedEvent.value);
       });
   });
 });
@@ -68,8 +84,11 @@ onMounted(() => {
 
 <style scoped>
 #map {
-  margin: 1rem;
-  height: 90vh;
+  height: 100vh;
   z-index: 5;
+}
+
+.event-modal {
+  z-index: 10;
 }
 </style>

@@ -59,7 +59,7 @@ function resetInputValue(val: string) {
 </script>
 
 <template>
-  <div class="h-screen w-screen">
+  <div class="h-screen w-screen flex flex-col">
     <div>
       <MenuConnexion />
     </div>
@@ -81,7 +81,7 @@ function resetInputValue(val: string) {
         </div>
       </div>
     </div>
-    <div>
+    <div class="min-h-0 flex-grow p-2.5">
       <MapCommon />
     </div>
   </div>
