@@ -87,7 +87,8 @@ export class AppService {
 
         try {
             const connection = await pool.getConnection();
-            const result = await connection.query('SELECT * FROM events_by_address WHERE longitude >= ? AND latitude >= ? AND longitude <= ? AND latitude <= ? LIMIT 50', coordinates);
+            const result = await connection.query('SELECT * FROM events_by_address WHERE latitude >= ? AND latitude <= ? AND longitude >= ? AND longitude <= ? LIMIT 50', coordinates);
+            console.log(coordinates)
             connection.release();
 
             for (let i = 0; i < result.length; i++) {
