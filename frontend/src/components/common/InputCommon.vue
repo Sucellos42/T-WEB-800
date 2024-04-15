@@ -18,6 +18,14 @@ const isHidden = ref(false);
 const inputCommonStore = useInputCommonStore();
 
 watch(
+  () => destination.value,
+  (newVal) => {
+    inputCommonStore.updateCity(newVal);
+  },
+  { immediate: true },
+);
+
+watch(
   () => props.start,
   (newVal) => {
     if (newVal) {

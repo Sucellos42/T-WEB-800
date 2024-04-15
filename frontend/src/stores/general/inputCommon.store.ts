@@ -16,8 +16,23 @@ export const useInputCommonStore = defineStore('inputCommon', {
     getEvents: (state) => state.events,
   },
   actions: {
-    sendAllData() {
-      console.log('Data sent: ', this.city, this.date, this.events);
+    async sendAllData() {
+      console.log('hello');
+      try {
+        const res = await fetch(
+          `http://localhost:3000/events/bycity/${this.getCity}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        const data = await res.json();
+        console.log('Data:', data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     },
     updateEvents(newEvents: EventsSelected) {
       console.log('Events to update: ', newEvents);
