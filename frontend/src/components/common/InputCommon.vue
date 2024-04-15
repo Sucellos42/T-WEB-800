@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, defineProps, watch, defineEmits } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
 
 const props = defineProps<{
   start: string;
@@ -14,6 +15,7 @@ const arrivee = ref('');
 const evenement = ref('');
 const isSelected = ref('');
 const isHidden = ref(false);
+const inputCommonStore = useInputCommonStore();
 
 watch(
   () => props.start,
@@ -51,7 +53,6 @@ function resetInput(type: string) {
       destination.value = '';
       break;
     case 'depart':
-      console.log('1');
       depart.value = '';
       break;
     case 'arrivee':
@@ -84,6 +85,10 @@ function resetAllValues() {
     isSelected.value = '';
   }
   emit('update:reset', false);
+}
+
+function sendData() {
+  inputCommonStore.sendAllData();
 }
 
 const emit = defineEmits([
@@ -204,7 +209,7 @@ const emit = defineEmits([
           :disabled="true"
         />
       </div>
-      <button class="bg-red-500 rounded-full p-2.5">
+      <button class="bg-red-500 rounded-full p-2.5" @click="sendData">
         <font-awesome-icon class="text-white" icon="search" />
       </button>
     </div>

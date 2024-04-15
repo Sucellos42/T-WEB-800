@@ -1,1 +1,1 @@
-export type eventsSelected = string[];
+export type EventsSelected = string[];

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { defineProps, ref, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
+import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
+
 import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
-import { eventsSelected } from '~/types/cardCommon/eventsSelected.type.ts';
 import Events from '~/assets/data/event.json';
+
+import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
 
 const props = defineProps<{
   type: string;
@@ -16,11 +18,12 @@ const selectedRange = ref({
   end: new Date(),
 } as RangeDateSelected);
 const attributes = ref([{}]);
-const events = ref([] as eventsSelected);
 
 const connexionStore = useConnexionStore();
+const inputCommonStore = useInputCommonStore();
 const token: string | null = localStorage.getItem('token') ?? null;
 const log: string = token ? 'Déconnexion' : 'Connexion';
+const events = ref(useInputCommonStore().getEvents);
 
 watch(
   selectedRange,
@@ -37,6 +40,7 @@ watch(
         },
       ];
       emit('update:selectedRange', newRange);
+      inputCommonStore.updateDate(newRange);
     }
   },
   { deep: true },
@@ -45,14 +49,16 @@ watch(
 function allEventsSelected(event: Event, child: string) {
   const isChecked = (event.target as HTMLInputElement).checked;
   if (isChecked) {
-    events.value.push(child);
+    if (!events?.value.includes(child)) {
+      events.value.push(child);
+    }
   } else {
-    events.value = events.value.filter((el) => el !== child);
+    events.value = events.value.filter((e: string) => e !== child);
   }
-  emit('update:selectedEvents', events.value);
+  inputCommonStore.updateEvents(events.value);
 }
 
-const emit = defineEmits(['update:selectedRange', 'update:selectedEvents']);
+const emit = defineEmits(['update:selectedRange']);
 </script>
 
 <template>
@@ -96,6 +102,7 @@ const emit = defineEmits(['update:selectedRange', 'update:selectedEvents']);
           <input
             type="checkbox"
             class="mr-2"
+            :checked="events.includes(child)"
             @change="allEventsSelected($event, child)"
           />
           <span class="text-gray-500 text-xs">{{ child }}</span>
