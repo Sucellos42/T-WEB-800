@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, defineProps, watch, computed, defineEmits } from 'vue';
+import { ref, defineProps, watch, defineEmits } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
 
 const props = defineProps<{
   start: string;
@@ -11,17 +12,18 @@ const props = defineProps<{
 const destination = ref('');
 const depart = ref('');
 const arrivee = ref('');
-const prix = ref('');
+const evenement = ref('');
 const isSelected = ref('');
 const isHidden = ref(false);
+const inputCommonStore = useInputCommonStore();
 
-computed(() => {
-  if (depart.value && arrivee.value) {
-    emit('reset:input', '');
-    return null;
-  }
-  return null;
-});
+watch(
+  () => destination.value,
+  (newVal) => {
+    inputCommonStore.updateCity(newVal);
+  },
+  { immediate: true },
+);
 
 watch(
   () => props.start,
@@ -56,7 +58,6 @@ watch(
 function resetInput(type: string) {
   switch (type) {
     case 'destination':
-      console.log('type', type);
       destination.value = '';
       break;
     case 'depart':
@@ -66,7 +67,7 @@ function resetInput(type: string) {
       arrivee.value = '';
       break;
     case 'prix':
-      prix.value = '';
+      evenement.value = '';
       break;
     default:
       break;
@@ -75,19 +76,27 @@ function resetInput(type: string) {
 
 function focusInput(type: string) {
   isSelected.value = type;
-  if (type === 'arrivee' || type === 'depart') {
-    console.log('type', type);
+  if (type === 'arrivee' || type === 'depart' || type === 'evenement') {
     emit('update:input-selected', type);
   }
   isHidden.value = true;
 }
 
 function resetAllValues() {
-  depart.value = '';
-  arrivee.value = '';
-  isHidden.value = false;
-  isSelected.value = '';
+  if (depart.value && arrivee.value) {
+    isHidden.value = false;
+    isSelected.value = '';
+  } else {
+    depart.value = '';
+    arrivee.value = '';
+    isHidden.value = false;
+    isSelected.value = '';
+  }
   emit('update:reset', false);
+}
+
+function sendData() {
+  inputCommonStore.sendAllData();
 }
 
 const emit = defineEmits([
@@ -99,7 +108,7 @@ const emit = defineEmits([
 
 <template>
   <div
-    class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom"
+    class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
     :class="{ 'bg-airbnb': isHidden }"
   >
     <div
@@ -114,8 +123,7 @@ const emit = defineEmits([
       <div class="flex flex-col pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
         <input
-          id="depart-input"
-          ref="inputRef"
+          id="destination-input"
           v-model="destination"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
@@ -124,7 +132,7 @@ const emit = defineEmits([
       </div>
       <button
         v-if="destination"
-        class="hover:bg-white hover:rounded-full p-1"
+        class="hover:text-red-500"
         @click="resetInput('destination')"
       >
         x
@@ -148,11 +156,12 @@ const emit = defineEmits([
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
           placeholder="Quand ?"
+          :disabled="true"
         />
       </div>
       <button
         v-if="arrivee"
-        class="hover:bg-white hover:rounded-full p-1"
+        class="hover:text-red-500"
         @click="resetInput('arrivee')"
       >
         x
@@ -176,11 +185,12 @@ const emit = defineEmits([
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
           placeholder="Quand ?"
+          :disabled="true"
         />
       </div>
       <button
         v-if="depart"
-        class="hover:bg-white hover:rounded-full hover:p-2"
+        class="hover:text-red-500"
         @click="resetInput('depart')"
       >
         x
@@ -190,23 +200,24 @@ const emit = defineEmits([
     <div
       class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
       :class="[
-        isSelected === 'prix'
+        isSelected === 'evenement'
           ? 'bg-white hover:bg-white'
           : 'hover:bg-airbnb-hover',
       ]"
-      @click="focusInput('prix')"
+      @click="focusInput('evenement')"
     >
       <div class="flex flex-col pr-4">
-        <label for="prix-input" class="text-sm">Prix</label>
+        <label for="prix-input" class="text-sm">Evénements</label>
         <input
           id="prix-input"
-          v-model="prix"
+          v-model="evenement"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
-          placeholder="Indiquez votre prix"
+          placeholder="Choisissez un événement"
+          :disabled="true"
         />
       </div>
-      <button class="bg-red-500 rounded-full p-2.5">
+      <button class="bg-red-500 rounded-full p-2.5" @click="sendData">
         <font-awesome-icon class="text-white" icon="search" />
       </button>
     </div>

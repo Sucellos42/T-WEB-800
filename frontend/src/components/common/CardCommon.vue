@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { defineProps, ref, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
+import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
+
 import { DatePicker as VDatePicker } from 'v-calendar';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Events from '~/assets/data/event.json';
+
 import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
 
 const props = defineProps<{
@@ -15,8 +20,10 @@ const selectedRange = ref({
 const attributes = ref([{}]);
 
 const connexionStore = useConnexionStore();
+const inputCommonStore = useInputCommonStore();
 const token: string | null = localStorage.getItem('token') ?? null;
 const log: string = token ? 'Déconnexion' : 'Connexion';
+const events = ref(useInputCommonStore().getEvents);
 
 watch(
   selectedRange,
@@ -33,10 +40,23 @@ watch(
         },
       ];
       emit('update:selectedRange', newRange);
+      inputCommonStore.updateDate(newRange);
     }
   },
   { deep: true },
 );
+
+function allEventsSelected(event: Event, child: string) {
+  const isChecked = (event.target as HTMLInputElement).checked;
+  if (isChecked) {
+    if (!events?.value.includes(child)) {
+      events.value.push(child);
+    }
+  } else {
+    events.value = events.value.filter((e: string) => e !== child);
+  }
+  inputCommonStore.updateEvents(events.value);
+}
 
 const emit = defineEmits(['update:selectedRange']);
 </script>
@@ -65,7 +85,31 @@ const emit = defineEmits(['update:selectedRange']);
     model="dateTime"
     expanded
   />
-  <div v-if="props.type === 'prix'"></div>
+  <div v-if="props.type === 'evenement'" class="grid grid-cols-4 m-2">
+    <div v-for="(event, name) of Events" :key="name" class="pr-2">
+      <div class="flex justify-between items-center">
+        <div class="text-gray-600 flex items-center">
+          <font-awesome-icon :icon="['fas', event.icon]" class="pr-2" />
+          <span class="text-lg">{{ name }}</span>
+        </div>
+      </div>
+      <div class="max-w-48">
+        <div
+          v-for="(child, indexChild) of event.children"
+          :key="indexChild"
+          class="flex items-center"
+        >
+          <input
+            type="checkbox"
+            class="mr-2"
+            :checked="events.includes(child)"
+            @change="allEventsSelected($event, child)"
+          />
+          <span class="text-gray-500 text-xs">{{ child }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
