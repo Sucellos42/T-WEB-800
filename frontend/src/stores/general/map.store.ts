@@ -16,6 +16,7 @@ export const useMapStore = defineStore('map', {
   actions: {
     loadEvents(events: AllEvents) {
       this.allEvents = events;
+      console.log('Events loaded:', this.getAllEvents, this.getEvent(1));
     },
   },
 });
