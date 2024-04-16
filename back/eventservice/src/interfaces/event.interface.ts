@@ -8,4 +8,5 @@ export interface EventInterface {
   longitude: number;
   latitude: number;
   event_type: string;
+  photo_url?: string;
 }

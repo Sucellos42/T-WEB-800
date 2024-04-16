@@ -24,7 +24,7 @@ export class AppService {
 
             for (let i = 0; i < result.length; i++) {
                 eventsByCity.push({
-                    id: result[i].id,
+                    id: i,
                     identifier: result[i].identifier,
                     label: result[i].label,
                     description: result[i].description,
@@ -32,7 +32,8 @@ export class AppService {
                     city: result[i].city,
                     longitude: result[i].longitude,
                     latitude: result[i].latitude,
-                    event_type: result[i].event_type
+                    event_type: result[i].event_type,
+                    photo_url: result[i].photo_url
                 });
             }
 
@@ -63,7 +64,7 @@ export class AppService {
 
             for (let i = 0; i < result.length; i++) {
                 eventsByType.push({
-                    id: result[i].id,
+                    id: i,
                     identifier: result[i].identifier,
                     label: result[i].label,
                     description: result[i].description,
@@ -71,7 +72,8 @@ export class AppService {
                     city: result[i].city,
                     longitude: result[i].longitude,
                     latitude: result[i].latitude,
-                    event_type: result[i].event_type
+                    event_type: result[i].event_type,
+                    photo_url: result[i].photo_url
                 });
             }
 
@@ -87,12 +89,13 @@ export class AppService {
 
         try {
             const connection = await pool.getConnection();
-            const result = await connection.query('SELECT * FROM events_by_address WHERE longitude >= ? AND latitude >= ? AND longitude <= ? AND latitude <= ? LIMIT 50', coordinates);
+            const result = await connection.query('SELECT * FROM events_by_address WHERE latitude >= ? AND latitude <= ? AND longitude >= ? AND longitude <= ? LIMIT 50', coordinates);
+            console.log(coordinates)
             connection.release();
 
             for (let i = 0; i < result.length; i++) {
                 eventsByCoordinates.push({
-                    id: result[i].id,
+                    id: i,
                     identifier: result[i].identifier,
                     label: result[i].label,
                     description: result[i].description,
@@ -100,7 +103,8 @@ export class AppService {
                     city: result[i].city,
                     longitude: result[i].longitude,
                     latitude: result[i].latitude,
-                    event_type: result[i].event_type
+                    event_type: result[i].event_type,
+                    photo_url: result[i].photo_url
                 });
             }
 
@@ -130,7 +134,7 @@ export class AppService {
 
             for (let i = 0; i < result.length; i++) {
                 eventsByCityAndType.push({
-                    id: result[i].id,
+                    id: i,
                     identifier: result[i].identifier,
                     label: result[i].label,
                     description: result[i].description,
@@ -138,7 +142,8 @@ export class AppService {
                     city: result[i].city,
                     longitude: result[i].longitude,
                     latitude: result[i].latitude,
-                    event_type: result[i].event_type
+                    event_type: result[i].event_type,
+                    photo_url: result[i].photo_url
                 });
             }
 

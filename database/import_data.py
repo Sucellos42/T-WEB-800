@@ -14,8 +14,14 @@ conn = mariadb.connect(
 # Create a cursor
 cursor = conn.cursor()
 
+# Add a new column to the events_by_address table
+cursor.execute("""
+    ALTER TABLE events_by_address
+    ADD COLUMN photo_url VARCHAR(255)
+""")
+
 # Define the path to the folder containing the JSON files
-folder_path = 'extracted_files/objects/6/69'
+folder_path = 'extracted_files/objects/0'
 
 # Iterate over all subdirectories and files in the folder
 for root, dirs, files in os.walk(folder_path):
@@ -28,27 +34,22 @@ for root, dirs, files in os.walk(folder_path):
                 # Get the event ID
                 event_id = data["dc:identifier"]
 
-                # Get the latitude and longitude values
-                latitude = None
-                longitude = None
-                if "isLocatedAt" in data:
-                    is_located_at = data["isLocatedAt"][0]
-                    if "schema:geo" in is_located_at:
-                        schema_geo = is_located_at["schema:geo"]
-                        if "schema:latitude" in schema_geo:
-                            latitude = schema_geo["schema:latitude"]
-                        if "schema:longitude" in schema_geo:
-                            longitude = schema_geo["schema:longitude"]
-                
-                # print(event_id, latitude, longitude)
+                # Get the photo URL
+                photo_url = None
+                if "ebucore:hasPart" in data:
+                    has_part = data["ebucore:hasPart"][0]
+                    if "ebucore:locator" in has_part:
+                        locator = has_part["ebucore:locator"]
+                        if "http://" in locator or "https://" in locator:
+                            photo_url = locator
 
-                # Update the latitude and longitude columns in the events_by_address table
-                if latitude is not None and longitude is not None:
+                # Update the photo_url column in the events_by_address table
+                if photo_url is not None:
                     cursor.execute("""
                         UPDATE events_by_address
-                        SET latitude = %s, longitude = %s
+                        SET photo_url = %s
                         WHERE identifier = %s
-                    """, (latitude, longitude, event_id))
+                    """, (photo_url, event_id))
 
 # Commit the transaction
 conn.commit()

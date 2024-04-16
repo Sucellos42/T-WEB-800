@@ -16,9 +16,9 @@ export class AppController {
     return this.client.send({ cmd: 'get_events_by_type' } , typeArray);
   }
 
-  @Get('/bycoordinates/:longitudea/:latitudea/:longitudeb/:latitudeb')
-    getAllEventsByCoordinates(@Param('longitudea') longitudea: string, @Param('latitudea') latitudea: string, @Param('longitudeb') longitudeb: string, @Param('latitudeb') latitudeb: string){
-        return this.client.send({ cmd: 'get_events_by_coordinates' } , [longitudea, latitudea, longitudeb, latitudeb]);
+  @Get('/bycoordinates/:latitudea/:latitudeb/:longitudea/:longitudeb')
+    getAllEventsByCoordinates(@Param('latitudea') latitudea: string, @Param('latitudeb') latitudeb: string, @Param('longitudea') longitudea: string, @Param('longitudeb') longitudeb: string){
+        return this.client.send({ cmd: 'get_events_by_coordinates' } , [latitudea, latitudeb, longitudea, longitudeb]);
     }
     @Get('/bycityandtype/:city/:type')
     getAllEventsByCityAndType(@Param('city') city: string, @Param('type') type:string){
