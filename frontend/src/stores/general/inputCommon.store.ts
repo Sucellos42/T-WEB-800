@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 
 import { useMapStore } from '~/stores/general/map.store';
 
-import { DataInput } from '~/types/inputCommon/dataInput.type';
-import { RangeDateSelected } from '~/types/rangeDateSelected.type';
-import { EventsSelected } from '~/types/cardCommon/eventsSelected.type';
+import { InputCommonType } from '~/types/storeType/inputCommon.type';
+import { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
+import { EventsSelected } from '~/types/events/events.type';
 
 export const useInputCommonStore = defineStore('inputCommon', {
-  state: (): DataInput => ({
+  state: (): InputCommonType => ({
     city: '',
     date: { start: new Date(), end: new Date() },
     events: [],

@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import router from '~/router';
 
+import { UserType } from '~/types/storeType/user.type';
+
 export const useConnexionStore = defineStore('connexion', {
-  state: (): { user: NonNullable<unknown>; firstName: string | null } => ({
+  state: (): UserType => ({
     user: {},
     firstName: '',
   }),

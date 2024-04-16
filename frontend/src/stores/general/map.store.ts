@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia';
 
-import { MapStoreType } from '~/types/storeType/map.type';
-import { AllEvents } from '~/types/events/allEvents.type';
-import { Event } from '~/types/events/event.type';
+import { MapType } from '~/types/storeType/map.type';
+import { Event, AllEvents } from '~/types/events/events.type';
 
 export const useMapStore = defineStore('map', {
-  state: (): MapStoreType => ({
+  state: (): MapType => ({
     allEvents: [],
   }),
   getters: {
@@ -17,7 +16,6 @@ export const useMapStore = defineStore('map', {
   actions: {
     loadEvents(events: AllEvents) {
       this.allEvents = events;
-      console.log('Events loaded', this.getAllEvents, this.getEvent(0));
     },
   },
 });

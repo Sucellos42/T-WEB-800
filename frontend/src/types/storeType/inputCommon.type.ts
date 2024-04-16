@@ -1,9 +1,9 @@
 import { RangeDateSelected } from '../date/rangeDateSelected.type.ts';
-import { EventsSelected } from '../cardCommon/eventsSelected.type.ts';
+import { EventsSelected } from '../events/events.type.ts';
 
-export type InputCommonStoreType = {
-    city: string;
-    date: RangeDateSelected;
-    events: EventsSelected;
-    eventsTranslated: EventsSelected;
+export type InputCommonType = {
+  city: string;
+  date: RangeDateSelected;
+  events: EventsSelected;
+  eventsTranslated: EventsSelected;
 };

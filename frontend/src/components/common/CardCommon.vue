@@ -7,8 +7,8 @@ import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Events from '~/assets/data/event.json';
 
-import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
-import { ListEvents } from '~/types/events/listEvents.type.ts';
+import { RangeDateSelected } from '~/types/date/rangeDateSelected.type.ts';
+import { ListEventsJSON } from '~/types/events/events.type.ts';
 
 const props = defineProps<{
   type: string;
@@ -26,7 +26,7 @@ const token: string | null = localStorage.getItem('token') ?? null;
 const log: string = token ? 'Déconnexion' : 'Connexion';
 const events = ref(useInputCommonStore().getEvents);
 const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
-const allEvents: Ref<ListEvents> = ref(Events);
+const allEvents: Ref<ListEventsJSON> = ref(Events);
 
 watch(
   selectedRange,
