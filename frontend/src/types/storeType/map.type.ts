@@ -1,5 +1,5 @@
-import { AllEvents } from '../events/allEvents.type'
+import { AllEvents } from '../events/allEvents.type';
 
 export type MapStoreType = {
-    allEvents: AllEvents
-}
+  allEvents: AllEvents;
+};
