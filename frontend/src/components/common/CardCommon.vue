@@ -124,7 +124,9 @@ const emit = defineEmits(['update:selectedRange']);
             type="checkbox"
             class="mr-2"
             :checked="events.includes(child)"
-            @change="allEventsSelected($event, child, indexChild, name as string)"
+            @change="
+              allEventsSelected($event, child, indexChild, name as string)
+            "
           />
           <span class="text-gray-500 text-xs">{{ child }}</span>
         </div>

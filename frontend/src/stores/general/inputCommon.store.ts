@@ -51,7 +51,6 @@ export const useInputCommonStore = defineStore('inputCommon', {
             },
           },
         );
-        console.log('Response:', res);
         const data = await res.json();
         console.log('Data:', data);
       } catch (error) {
