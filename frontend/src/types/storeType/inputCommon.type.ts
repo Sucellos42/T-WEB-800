@@ -6,4 +6,5 @@ export type InputCommonType = {
   date: RangeDateSelected;
   events: EventsSelected;
   eventsTranslated: EventsSelected;
+  allCities: string[];
 };

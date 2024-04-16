@@ -12,12 +12,14 @@ export const useInputCommonStore = defineStore('inputCommon', {
     date: { start: new Date(), end: new Date() },
     events: [],
     eventsTranslated: [],
+    allCities: [],
   }),
   getters: {
     getCity: (state) => state.city,
     getDate: (state) => state.date,
     getEvents: (state) => state.events,
     getEventsTranslated: (state) => state.eventsTranslated,
+    getAllCities: (state) => state.allCities,
   },
   actions: {
     async loadAllData() {
@@ -58,6 +60,9 @@ export const useInputCommonStore = defineStore('inputCommon', {
       } catch (error) {
         console.error('Error:', error);
       }
+    },
+    loadAllCities() {
+      console.log('hello');
     },
   },
 });
