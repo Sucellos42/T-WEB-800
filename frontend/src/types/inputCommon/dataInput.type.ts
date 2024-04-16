@@ -5,4 +5,5 @@ export type DataInput = {
   city: string;
   date: RangeDateSelected;
   events: EventsSelected;
+  eventsTranslated: EventsSelected;
 };

@@ -96,7 +96,7 @@ function resetAllValues() {
 }
 
 function sendData() {
-  inputCommonStore.sendAllData();
+  inputCommonStore.loadAllData();
 }
 
 const emit = defineEmits([
