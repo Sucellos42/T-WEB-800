@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 
+import { useMapStore } from '~/stores/general/map.store';
+
 import { DataInput } from '~/types/inputCommon/dataInput.type';
 import { RangeDateSelected } from '~/types/rangeDateSelected.type';
 import { EventsSelected } from '~/types/cardCommon/eventsSelected.type';
@@ -52,7 +54,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
           },
         );
         const data = await res.json();
-        console.log('Data:', data);
+        useMapStore().loadEvents(data);
       } catch (error) {
         console.error('Error:', error);
       }
