@@ -77,9 +77,11 @@ function resetInputValue(val: string) {
           v-if="
             inputType === 'depart' ||
             inputType === 'arrivee' ||
-            inputType === 'evenement'
+            inputType === 'evenement' ||
+            inputType === 'destination'
           "
           class="mt-3 relative shadow-custom-bottom"
+          :class="{ 'max-w-48': inputType === 'destination' }"
         >
           <CardCommon :type="inputType" @update:selected-range="updateRange" />
         </div>

@@ -77,7 +77,12 @@ function resetInput(type: string) {
 
 function focusInput(type: string) {
   isSelected.value = type;
-  if (type === 'arrivee' || type === 'depart' || type === 'evenement') {
+  if (
+    type === 'arrivee' ||
+    type === 'depart' ||
+    type === 'evenement' ||
+    type === 'destination'
+  ) {
     emit('update:input-selected', type);
   }
   isHidden.value = true;

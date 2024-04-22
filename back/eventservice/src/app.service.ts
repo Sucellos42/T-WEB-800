@@ -122,7 +122,7 @@ export class AppService {
 
   async getEventsByCityAndType(
     city: string,
-    type: Array<string>
+    types: Array<string>
   ): Promise<EventInterface[]> {
     let eventsByCityAndType: EventInterface[] = [];
 
@@ -131,12 +131,12 @@ export class AppService {
       console.log("passage 2");
       let query = "SELECT * FROM events_by_address WHERE city = ? AND ";
       const params: string[] = [city];
-      for (let i = 0; i < type.length; i++) {
+      for (let i = 0; i < types.length; i++) {
         if (i > 0) {
           query += " OR ";
         }
         query += "event_type LIKE ?";
-        params.push(`%${type[i]}%`);
+        params.push(`%${types[i]}%`);
       }
       const result = await pool.query(query, params);
 
