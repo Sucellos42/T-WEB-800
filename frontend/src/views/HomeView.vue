@@ -6,9 +6,9 @@ import MenuConnexion from '~/components/MenuConnexion.vue';
 import CardCommon from '~/components/common/CardCommon.vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import router from '~/router';
-
-import type { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
 import MapCommon from '~/components/events/EventMap.vue';
+
+import type { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 
 const route = useRoute();
 const connexionStore = useConnexionStore();

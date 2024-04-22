@@ -22,7 +22,7 @@ function reset(): void {
   <div class="flex relative justify-end w-screen">
     <div
       v-click-outside="reset"
-      class="inline-flex mt-4 mr-4 ml-4 p-3 items-center rounded-full border-1.5 border-gray-200 hover:shadow-custom-bottom"
+      class="inline-flex mt-4 mr-4 ml-4 p-3 items-center rounded-full border-1.5 bg-white hover:shadow-custom-bottom"
       :class="{ 'shadow-custom-bottom': isSelected }"
       @click="isSelected = !isSelected"
     >

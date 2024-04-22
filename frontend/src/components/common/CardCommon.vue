@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref, watch, defineEmits } from 'vue';
+import { defineProps, Ref, ref, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
 
@@ -7,7 +7,8 @@ import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Events from '~/assets/data/event.json';
 
-import { RangeDateSelected } from '~/types/rangeDateSelected.type.ts';
+import { RangeDateSelected } from '~/types/date/rangeDateSelected.type.ts';
+import { ListEventsJSON } from '~/types/events/events.type.ts';
 
 const props = defineProps<{
   type: string;
@@ -24,6 +25,8 @@ const inputCommonStore = useInputCommonStore();
 const token: string | null = localStorage.getItem('token') ?? null;
 const log: string = token ? 'Déconnexion' : 'Connexion';
 const events = ref(useInputCommonStore().getEvents);
+const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
+const allEvents: Ref<ListEventsJSON> = ref(Events);
 
 watch(
   selectedRange,
@@ -46,16 +49,34 @@ watch(
   { deep: true },
 );
 
-function allEventsSelected(event: Event, child: string) {
+function allEventsSelected(
+  event: Event,
+  child: string,
+  index: number,
+  nameParent: string,
+) {
+  const childTranslated = translate(nameParent, index);
   const isChecked = (event.target as HTMLInputElement).checked;
   if (isChecked) {
-    if (!events?.value.includes(child)) {
+    if (
+      !events?.value.includes(child) &&
+      !eventsTranslated.value.includes(childTranslated)
+    ) {
       events.value.push(child);
+      eventsTranslated.value.push(childTranslated);
     }
   } else {
     events.value = events.value.filter((e: string) => e !== child);
+    eventsTranslated.value = eventsTranslated.value.filter(
+      (e: string) => e !== childTranslated,
+    );
   }
-  inputCommonStore.updateEvents(events.value);
+  inputCommonStore.updateEvents(events.value, eventsTranslated.value);
+}
+
+function translate(name: string, index: number) {
+  const allEventsUK = allEvents.value[name].childrenUK;
+  return allEventsUK[index];
 }
 
 const emit = defineEmits(['update:selectedRange']);
@@ -86,7 +107,7 @@ const emit = defineEmits(['update:selectedRange']);
     expanded
   />
   <div v-if="props.type === 'evenement'" class="grid grid-cols-4 m-2">
-    <div v-for="(event, name) of Events" :key="name" class="pr-2">
+    <div v-for="(event, name) of allEvents" :key="name" class="pr-2">
       <div class="flex justify-between items-center">
         <div class="text-gray-600 flex items-center">
           <font-awesome-icon :icon="['fas', event.icon]" class="pr-2" />
@@ -103,7 +124,9 @@ const emit = defineEmits(['update:selectedRange']);
             type="checkbox"
             class="mr-2"
             :checked="events.includes(child)"
-            @change="allEventsSelected($event, child)"
+            @change="
+              allEventsSelected($event, child, indexChild, name as string)
+            "
           />
           <span class="text-gray-500 text-xs">{{ child }}</span>
         </div>

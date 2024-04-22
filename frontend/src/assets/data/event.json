@@ -16,11 +16,28 @@
       "Site culturel",
       "Restauration",
       "Prestataire de service"
+    ],
+    "childrenUK": [
+      "RetailOutlet",
+      "NaturalSite",
+      "SportsRecreationalAndLeisureSite",
+      "TouristInformationService",
+      "Accommodation",
+      "BusinessSite",
+      "ActivityProvider",
+      "HealthSite",
+      "TastingProvider",
+      "PracticalService",
+      "Transport",
+      "CulturalSite",
+      "Restaurant",
+      "ServiceProvider"
     ]
   },
   "Produit": {
     "icon": "cart-shopping",
-    "children": ["Visite", "Produit d'hébergement", "Pratique", "Location"]
+    "children": ["Visite", "Produit d'hébergement", "Pratique", "Location"],
+    "childrenUK": ["Visit", "AccommodationProduct", "Practical", "Rental"]
   },
   "Itineraire touristique": {
     "icon": "road",
@@ -31,6 +48,14 @@
       "Itinéraire pédestre",
       "Itinéraire routier",
       "Itinéraire équestre"
+    ],
+    "childrenUK": [
+      "UnderwaterRoute",
+      "RiveroOrMaritimeRoute",
+      "CyclingRoute",
+      "WalkingRoute",
+      "RoadRoute",
+      "EquestrianRoute"
     ]
   },
   "Evénement": {
@@ -41,6 +66,13 @@
       "Événement social",
       "Événement culturel",
       "Événement commercial"
+    ],
+    "childrenUK": [
+      "SportsAndLeisureEvent",
+      "CorporateBusinessEvent",
+      "SocialEvent",
+      "CulturalEvent",
+      "CommercialEvent"
     ]
   }
 }
