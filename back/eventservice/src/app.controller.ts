@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
-import { MessagePattern } from "@nestjs/microservices";
+import {MessagePattern, Payload} from "@nestjs/microservices";
 import { EventInterface } from "./interfaces/event.interface";
 
 @Controller()
@@ -24,18 +24,13 @@ export class AppController {
     return this.appService.getEventsByCoordinates(coordinates);
   }
 
+
   @MessagePattern({ cmd: "get_events_by_city_and_type" })
   async getEventsByCityAndType(
-    city: string,
-    type: Array<string>
+    @Payload() data: { city: string; types: string[] }
   ): Promise<EventInterface[]> {
-    let selectedCity = city[0];
-    let allType = [];
-    for (let i = 0; i < city[1].length; i++) {
-      allType.push(city[1][i]);
-    }
-    console.log(allType);
-    return this.appService.getEventsByCityAndType(selectedCity, allType);
+    const { city, types } = data;
+    return this.appService.getEventsByCityAndType(city, types);
   }
 
   @MessagePattern({ cmd: "get_city" })
