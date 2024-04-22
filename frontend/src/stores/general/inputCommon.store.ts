@@ -56,6 +56,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
           },
         );
         const data = await res.json();
+        console.log('Events loaded:', data);
         useMapStore().loadEvents(data);
       } catch (error) {
         console.error('Error:', error);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, Ref, ref, watch, defineEmits } from 'vue';
+import { defineProps, Ref, ref, computed, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
 
@@ -26,7 +26,18 @@ const token: string | null = localStorage.getItem('token') ?? null;
 const log: string = token ? 'Déconnexion' : 'Connexion';
 const events = ref(useInputCommonStore().getEvents);
 const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
+const allCities = ref(useInputCommonStore().getAllCities);
 const allEvents: Ref<ListEventsJSON> = ref(Events);
+
+
+const city = computed (() => inputCommonStore.getCity);
+
+watch(
+  () => city.value,
+  (newVal) => {
+    allCities.value = sort(newVal);
+  },
+);
 
 watch(
   selectedRange,
@@ -79,6 +90,29 @@ function translate(name: string, index: number) {
   return allEventsUK[index];
 }
 
+function sort (text: string) {
+  const allCities = inputCommonStore.getAllCities;
+
+  return allCities
+  .filter(city => city.toLowerCase().includes(text.toLowerCase()))
+  .sort((a, b) => {
+    const lowerA = a.toLowerCase();
+    const lowerB = b.toLowerCase();
+    const lowerSearchText = text.toLowerCase();
+
+    const startsWithA = lowerA.startsWith(lowerSearchText);
+    const startsWithB = lowerB.startsWith(lowerSearchText);
+
+    if (startsWithA && !startsWithB) {
+      return -1;
+    } else if (!startsWithA && startsWithB) {
+      return 1;
+    } else {
+      return lowerA.localeCompare(lowerB);
+    }
+  });
+}
+
 const emit = defineEmits(['update:selectedRange']);
 </script>
 
@@ -97,6 +131,12 @@ const emit = defineEmits(['update:selectedRange']);
     <span class="hover:text-red-500" @click="connexionStore.logout()">
       {{ log }}
     </span>
+  </div>
+  <div v-if="props.type === 'destination'" class="flex flex-col border-0.5 border-gray-300 rounded-md p-4">
+    <div v-for="(city, indexCity) of allCities" :key="indexCity" class="flex items-center text-gray-500">
+      <font-awesome-icon :icon="['fas', 'location-dot']" class="pr-2" />
+      <span>{{city}}</span>
+    </div>
   </div>
   <VDatePicker
     v-if="props.type === 'arrivee' || props.type === 'depart'"

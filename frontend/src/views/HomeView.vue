@@ -77,7 +77,8 @@ function resetInputValue(val: string) {
           v-if="
             inputType === 'depart' ||
             inputType === 'arrivee' ||
-            inputType === 'evenement'
+            inputType === 'evenement' ||
+            inputType === 'destination'
           "
           class="mt-3 relative shadow-custom-bottom"
         >
