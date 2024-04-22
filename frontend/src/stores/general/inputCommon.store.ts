@@ -24,9 +24,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
   actions: {
     async loadAllData() {
       if (this.city.length > 0 && this.eventsTranslated.length > 0) {
-        for (const event of this.eventsTranslated) {
-          await this.loadEventsWithCity(this.city, event);
-        }
+        await this.loadEventsWithCity(this.getCity, this.getEventsTranslated);
         this.updateEvents([], []);
         this.updateCity('');
       }
@@ -44,15 +42,16 @@ export const useInputCommonStore = defineStore('inputCommon', {
     updateDate(newDate: RangeDateSelected) {
       this.date = newDate;
     },
-    async loadEventsWithCity(city: string, event: string) {
+    async loadEventsWithCity(city: string, events: EventsSelected) {
       try {
         const res = await fetch(
-          `http://localhost:3000/events/bycityandtype/${city}/${event}`,
+          `http://localhost:3000/events/bycityandtype/${city}`,
           {
-            method: 'GET',
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ types: events }),
           },
         );
         const data = await res.json();

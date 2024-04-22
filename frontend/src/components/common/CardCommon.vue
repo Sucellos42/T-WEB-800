@@ -81,7 +81,8 @@ function allEventsSelected(
       (e: string) => e !== childTranslated,
     );
   }
-  inputCommonStore.updateEvents(events.value, eventsTranslated.value);
+  const eventsTranslatedArray = eventsTranslated.value.map((e) => e);
+  inputCommonStore.updateEvents(events.value, eventsTranslatedArray);
 }
 
 function translate(name: string, index: number) {
