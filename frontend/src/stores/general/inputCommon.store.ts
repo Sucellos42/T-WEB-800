@@ -61,8 +61,19 @@ export const useInputCommonStore = defineStore('inputCommon', {
         console.error('Error:', error);
       }
     },
-    loadAllCities() {
-      console.log('hello');
+    async loadAllCities() {
+      try {
+        const res = await fetch('http://localhost:3000/events/getcity', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await res.json();
+        this.allCities = data;
+      } catch (error) {
+        console.error('Error:', error);
+      }
     },
   },
 });

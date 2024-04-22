@@ -109,7 +109,7 @@ const emit = defineEmits([
 <template>
   <div
     class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
-    :class="{ 'bg-airbnb': isHidden }"
+    :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
   >
     <div
       class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
