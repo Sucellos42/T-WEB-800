@@ -18,6 +18,16 @@ const isHidden = ref(false);
 const inputCommonStore = useInputCommonStore();
 
 watch(
+  () => inputCommonStore.getIsSelectedCity,
+  (newVal) => {
+    if (newVal === true) {
+      destination.value = inputCommonStore.getCity;
+    }
+  },
+  { immediate: true },
+);
+
+watch(
   () => destination.value,
   (newVal) => {
     inputCommonStore.updateCity(newVal);

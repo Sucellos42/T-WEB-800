@@ -7,4 +7,5 @@ export type InputCommonType = {
   events: EventsSelected;
   eventsTranslated: EventsSelected;
   allCities: string[];
+  isSelectedCity: boolean;
 };

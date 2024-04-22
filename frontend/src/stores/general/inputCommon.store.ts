@@ -13,6 +13,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
     events: [],
     eventsTranslated: [],
     allCities: [],
+    isSelectedCity: false,
   }),
   getters: {
     getCity: (state) => state.city,
@@ -20,6 +21,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
     getEvents: (state) => state.events,
     getEventsTranslated: (state) => state.eventsTranslated,
     getAllCities: (state) => state.allCities,
+    getIsSelectedCity: (state) => state.isSelectedCity,
   },
   actions: {
     async loadAllData() {
@@ -73,6 +75,9 @@ export const useInputCommonStore = defineStore('inputCommon', {
       } catch (error) {
         console.error('Error:', error);
       }
+    },
+    updateIsSelectedCity(isSelected: boolean) {
+      this.isSelectedCity = isSelected;
     },
   },
 });
