@@ -29,8 +29,7 @@ const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
 const allCities = ref(useInputCommonStore().getAllCities);
 const allEvents: Ref<ListEventsJSON> = ref(Events);
 
-
-const city = computed (() => inputCommonStore.getCity);
+const city = computed(() => inputCommonStore.getCity);
 
 watch(
   () => city.value,
@@ -90,27 +89,27 @@ function translate(name: string, index: number) {
   return allEventsUK[index];
 }
 
-function sort (text: string) {
+function sort(text: string) {
   const allCities = inputCommonStore.getAllCities;
 
   return allCities
-  .filter(city => city.toLowerCase().includes(text.toLowerCase()))
-  .sort((a, b) => {
-    const lowerA = a.toLowerCase();
-    const lowerB = b.toLowerCase();
-    const lowerSearchText = text.toLowerCase();
+    .filter((city) => city.toLowerCase().includes(text.toLowerCase()))
+    .sort((a, b) => {
+      const lowerA = a.toLowerCase();
+      const lowerB = b.toLowerCase();
+      const lowerSearchText = text.toLowerCase();
 
-    const startsWithA = lowerA.startsWith(lowerSearchText);
-    const startsWithB = lowerB.startsWith(lowerSearchText);
+      const startsWithA = lowerA.startsWith(lowerSearchText);
+      const startsWithB = lowerB.startsWith(lowerSearchText);
 
-    if (startsWithA && !startsWithB) {
-      return -1;
-    } else if (!startsWithA && startsWithB) {
-      return 1;
-    } else {
-      return lowerA.localeCompare(lowerB);
-    }
-  });
+      if (startsWithA && !startsWithB) {
+        return -1;
+      } else if (!startsWithA && startsWithB) {
+        return 1;
+      } else {
+        return lowerA.localeCompare(lowerB);
+      }
+    });
 }
 
 const emit = defineEmits(['update:selectedRange']);
@@ -132,10 +131,17 @@ const emit = defineEmits(['update:selectedRange']);
       {{ log }}
     </span>
   </div>
-  <div v-if="props.type === 'destination'" class="flex flex-col border-0.5 border-gray-300 rounded-md p-4">
-    <div v-for="(city, indexCity) of allCities" :key="indexCity" class="flex items-center text-gray-500">
+  <div
+    v-if="props.type === 'destination'"
+    class="flex flex-col border-0.5 border-gray-300 rounded-md p-4"
+  >
+    <div
+      v-for="(city, indexCity) of allCities"
+      :key="indexCity"
+      class="flex items-center text-gray-500"
+    >
       <font-awesome-icon :icon="['fas', 'location-dot']" class="pr-2" />
-      <span>{{city}}</span>
+      <span>{{ city }}</span>
     </div>
   </div>
   <VDatePicker
