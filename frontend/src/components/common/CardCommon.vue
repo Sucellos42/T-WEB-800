@@ -112,6 +112,10 @@ function sort(text: string) {
     });
 }
 
+function selectCity(city: string) {
+  inputCommonStore.updateCity(city);
+}
+
 const emit = defineEmits(['update:selectedRange']);
 </script>
 
@@ -132,13 +136,14 @@ const emit = defineEmits(['update:selectedRange']);
     </span>
   </div>
   <div
-    v-if="props.type === 'destination'"
-    class="flex flex-col border-0.5 border-gray-300 rounded-md p-4"
+    v-if="props.type === 'destination' && city"
+    class="flex flex-col rounded-md p-4"
   >
     <div
       v-for="(city, indexCity) of allCities"
       :key="indexCity"
       class="flex items-center text-gray-500"
+      @click="selectCity(city)"
     >
       <font-awesome-icon :icon="['fas', 'location-dot']" class="pr-2" />
       <span>{{ city }}</span>
