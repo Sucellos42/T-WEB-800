@@ -76,7 +76,7 @@ function updateIsNotEmptyDestination(val: string) {
           :reset="reset"
           @update:input-selected="updateInput"
           @update:reset="reset = false"
-          @update:destination = "updateIsNotEmptyDestination($event)"
+          @update:destination="updateIsNotEmptyDestination($event)"
           @reset:input="resetInputValue"
         />
         <div
