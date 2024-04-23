@@ -114,7 +114,7 @@ function updateIsNotEmptyDestination(val: string) {
         </div>
       </div>
     </div>
-<!--    <div class="min-h-0 flex-grow p-2.5">
+    <!--    <div class="min-h-0 flex-grow p-2.5">
       <MapCommon />
     </div>-->
   </div>

@@ -8,5 +8,4 @@ export type InputCommonType = {
   eventsTranslated: EventsSelected;
   allCities: string[];
   isSelectedCity: boolean;
-  isResponsive: boolean;
 };
