@@ -14,17 +14,17 @@
     >
       <EventCard
         v-for="event in props.events"
-        :key="event[0]"
+        :key="event.id"
         class="event-card"
         :event="event"
       />
     </div>
     <div v-else-if="isExpanded && !isDesktop">
-      <EventCard v-for="event in props.events" :key="event[0]" :event="event" />
+      <EventCard v-for="event in props.events" :key="event.id" :event="event" />
     </div>
     <div v-if="!isDesktop && !isExpanded">
       <p class="event-text">
-        Découvrez les {{ props.events.length }} évènement dans cette zone
+        Découvrez les 2 évènement dans cette zone
       </p>
     </div>
   </div>
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import EventCard from '~/components/events/EventCard.vue';
-import { Event } from '~/types/eventsTypes';
+import { Event } from '~/types/events/events.type';
 
 const props = defineProps<{ events: Event[] }>();
 
@@ -110,10 +110,9 @@ const togglePanel = () => {
   flex-wrap: wrap;
 
   .event-card {
-    width: 90%;
-    max-width: 300px;
-    max-height: 400px;
-    margin: 0.5rem;
+    flex: 1 1 300px; /* Flex-grow, flex-shrink and flex-basis */
+    margin: 10px; /* Margin around each card */
+    max-width: 300px; /* Maximum width of each card */
   }
 }
 
