@@ -15,6 +15,7 @@ const routes = [
     name: 'Map',
     component: MapView,
     params: true,
+    props: true,
   },
 ];
 

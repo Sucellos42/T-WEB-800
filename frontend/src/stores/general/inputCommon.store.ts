@@ -43,6 +43,8 @@ export const useInputCommonStore = defineStore('inputCommon', {
       this.date = newDate;
     },
     async loadEventsWithCity(city: string, events: EventsSelected) {
+      // Set the loader to true
+      useMapStore().isLoading = true;
       try {
         const res = await fetch(
           `http://localhost:3000/events/bycityandtype/${city}`,
@@ -58,6 +60,8 @@ export const useInputCommonStore = defineStore('inputCommon', {
         useMapStore().loadEvents(data);
       } catch (error) {
         console.error('Error:', error);
+      } finally {
+        useMapStore().isLoading = false;
       }
     },
     async loadAllCities() {
