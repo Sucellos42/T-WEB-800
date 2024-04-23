@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Input from '~/components/common/InputCommon.vue';
 import MenuConnexion from '~/components/MenuConnexion.vue';
 import CardCommon from '~/components/common/CardCommon.vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import router from '~/router';
+/*
 import MapCommon from '~/components/events/EventMap.vue';
+*/
 
 import type { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 
@@ -17,8 +19,21 @@ const start = ref('');
 const end = ref('');
 const reset = ref(false);
 const isNotEmptyDestination = ref(false);
+const isResponsive = ref(window.innerWidth < 1024);
+const sizeWindow = ref(window.innerWidth);
+
+watch(
+  () => sizeWindow.value,
+  (newWidth) => {
+    isResponsive.value = newWidth < 1024;
+  },
+  { immediate: true },
+);
 
 onMounted(() => {
+  window.addEventListener('resize', () => {
+    sizeWindow.value = window.innerWidth;
+  });
   if (!localStorage.getItem('token') && route.query.token) {
     localStorage.setItem('token', route.query.token as string);
     localStorage.setItem('firstName', route.query.firstName as string);
@@ -28,6 +43,12 @@ onMounted(() => {
   if (localStorage.getItem('token')) {
     connexionStore.setFirstName(localStorage.getItem('firstName') as string);
   }
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {
+    sizeWindow.value = window.innerWidth;
+  });
 });
 
 function updateInput(val: string) {
@@ -66,10 +87,10 @@ function updateIsNotEmptyDestination(val: string) {
 <template>
   <div class="h-screen w-screen flex flex-col">
     <div>
-      <MenuConnexion />
+      <MenuConnexion :is-responsive="isResponsive" />
     </div>
     <div v-click-outside="updateReset" class="w-full flex justify-center mt-10">
-      <div class="flex flex-col">
+      <div v-if="!isResponsive" class="flex flex-col">
         <Input
           :start="start"
           :end="end"
@@ -93,9 +114,9 @@ function updateIsNotEmptyDestination(val: string) {
         </div>
       </div>
     </div>
-    <div class="min-h-0 flex-grow p-2.5">
+<!--    <div class="min-h-0 flex-grow p-2.5">
       <MapCommon />
-    </div>
+    </div>-->
   </div>
 </template>
 

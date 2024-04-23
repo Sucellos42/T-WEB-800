@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, ComputedRef } from 'vue';
+import { computed, ref, ComputedRef, defineProps } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import CardCommon from '~/components/common/CardCommon.vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
@@ -13,13 +13,20 @@ const initialName: ComputedRef<string> = computed(() => {
   return connexionStore.getFirstName.charAt(0).toUpperCase() || '';
 });
 
+const props = defineProps<{
+  isResponsive: boolean;
+}>();
+
 function reset(): void {
   isSelected.value = false;
 }
 </script>
 
 <template>
-  <div class="flex relative justify-end w-screen">
+  <div v-if="props.isResponsive">
+    <span>hello</span>
+  </div>
+  <div class="flex relative justify-end w-screen cursor-pointer">
     <div
       v-click-outside="reset"
       class="inline-flex mt-4 mr-4 ml-4 p-3 items-center rounded-full border-1.5 bg-white hover:shadow-custom-bottom"

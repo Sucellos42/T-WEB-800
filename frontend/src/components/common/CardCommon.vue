@@ -29,10 +29,10 @@ const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
 const allCities = ref(useInputCommonStore().getAllCities);
 const allEvents: Ref<ListEventsJSON> = ref(Events);
 
-const city = computed(() => inputCommonStore.getCity);
+const citySelected = computed(() => inputCommonStore.getCity);
 
 watch(
-  () => city.value,
+  () => citySelected.value,
   (newVal) => {
     allCities.value = sort(newVal);
   },
@@ -139,8 +139,8 @@ const emit = defineEmits(['update:selectedRange']);
     </span>
   </div>
   <div
-    v-if="props.type === 'destination' && city"
-    class="flex flex-col rounded-md p-4"
+    v-if="props.type === 'destination' && citySelected"
+    class="flex flex-col cursor-pointer rounded-md p-4"
   >
     <div
       v-for="(city, indexCity) of allCities.slice(0, 5)"
