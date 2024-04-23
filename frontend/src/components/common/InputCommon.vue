@@ -128,7 +128,7 @@ const emit = defineEmits([
     :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
   >
     <div
-      class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'destination'
           ? 'bg-white hover:bg-white'
@@ -136,7 +136,7 @@ const emit = defineEmits([
       ]"
       @click="focusInput('destination')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
         <input
           id="destination-input"
@@ -156,7 +156,7 @@ const emit = defineEmits([
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
     <div
-      class="flex relative justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex relative justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'arrivee'
           ? 'bg-white hover:bg-white'
@@ -164,7 +164,7 @@ const emit = defineEmits([
       ]"
       @click="focusInput('arrivee')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="depart-input" class="text-sm">Arrivée</label>
         <input
           id="depart-input"
@@ -185,7 +185,7 @@ const emit = defineEmits([
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
     <div
-      class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'depart'
           ? 'bg-white hover:bg-white'
@@ -193,7 +193,7 @@ const emit = defineEmits([
       ]"
       @click="focusInput('depart')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="arrivee-input" class="text-sm">Départ</label>
         <input
           id="arrivee-input"
@@ -214,7 +214,7 @@ const emit = defineEmits([
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
     <div
-      class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'evenement'
           ? 'bg-white hover:bg-white'
@@ -222,7 +222,7 @@ const emit = defineEmits([
       ]"
       @click="focusInput('evenement')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="prix-input" class="text-sm">Evénements</label>
         <input
           id="prix-input"
@@ -233,7 +233,7 @@ const emit = defineEmits([
           :disabled="true"
         />
       </div>
-      <button class="bg-red-500 rounded-full p-2.5" @click="sendData">
+      <button class="bg-red-500 rounded-full p-2.5 hover:bg-red-400" @click="sendData">
         <font-awesome-icon class="text-white" icon="search" />
       </button>
     </div>

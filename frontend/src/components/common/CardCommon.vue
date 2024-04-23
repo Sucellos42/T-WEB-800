@@ -34,8 +34,9 @@ const city = computed(() => inputCommonStore.getCity);
 watch(
   () => city.value,
   (newVal) => {
-    allCities.value = sort(newVal).slice(0, 5);
+    allCities.value = sort(newVal);
   },
+  { immediate: true },
 );
 
 watch(
@@ -142,7 +143,7 @@ const emit = defineEmits(['update:selectedRange']);
     class="flex flex-col rounded-md p-4"
   >
     <div
-      v-for="(city, indexCity) of allCities"
+      v-for="(city, indexCity) of allCities.slice(0, 5)"
       :key="indexCity"
       class="flex items-center text-gray-500 cursor-pointer hover:bg-gray-100 rounded-md"
       @click="selectCity(city)"
