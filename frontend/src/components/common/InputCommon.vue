@@ -233,7 +233,10 @@ const emit = defineEmits([
           :disabled="true"
         />
       </div>
-      <button class="bg-red-500 rounded-full p-2.5 hover:bg-red-400" @click="sendData">
+      <button
+        class="bg-red-500 rounded-full p-2.5 hover:bg-red-400"
+        @click="sendData"
+      >
         <font-awesome-icon class="text-white" icon="search" />
       </button>
     </div>
