@@ -16,6 +16,7 @@ const inputType = ref('');
 const start = ref('');
 const end = ref('');
 const reset = ref(false);
+const isNotEmptyDestination = ref(false);
 
 onMounted(() => {
   if (!localStorage.getItem('token') && route.query.token) {
@@ -56,6 +57,10 @@ function updateReset() {
 function resetInputValue(val: string) {
   inputType.value = val;
 }
+
+function updateIsNotEmptyDestination(val: string) {
+  isNotEmptyDestination.value = val.length > 0;
+}
 </script>
 
 <template>
@@ -71,6 +76,7 @@ function resetInputValue(val: string) {
           :reset="reset"
           @update:input-selected="updateInput"
           @update:reset="reset = false"
+          @update:destination="updateIsNotEmptyDestination($event)"
           @reset:input="resetInputValue"
         />
         <div
@@ -78,7 +84,7 @@ function resetInputValue(val: string) {
             inputType === 'depart' ||
             inputType === 'arrivee' ||
             inputType === 'evenement' ||
-            inputType === 'destination'
+            (inputType === 'destination' && isNotEmptyDestination)
           "
           class="mt-3 relative shadow-custom-bottom"
           :class="{ 'max-w-48': inputType === 'destination' }"

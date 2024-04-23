@@ -36,7 +36,6 @@ import EventCard from '~/components/events/EventCard.vue';
 import { Event } from '~/types/eventsTypes';
 
 const props = defineProps<{ events: Event[] }>();
-console.log('EventList props:', props);
 
 const isExpanded = ref(false);
 const isDesktop = ref(false);
@@ -44,14 +43,10 @@ const isDesktop = ref(false);
 onMounted(() => {
   checkScreenSize();
   window.addEventListener('resize', checkScreenSize);
-  console.log(isDesktop.value);
-  console.log(isExpanded.value);
   if (isDesktop.value) {
     isExpanded.value = true;
   }
 });
-
-// On change console.log(isDesktop.value) to console.log(isDesktop)
 
 const checkScreenSize = () => {
   isDesktop.value = window.innerWidth >= 768;

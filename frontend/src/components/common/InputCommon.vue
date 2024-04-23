@@ -18,11 +18,21 @@ const isHidden = ref(false);
 const inputCommonStore = useInputCommonStore();
 
 watch(
+  () => inputCommonStore.getIsSelectedCity,
+  (newVal) => {
+    if (newVal === true) {
+      destination.value = inputCommonStore.getCity;
+    }
+  },
+  { immediate: true },
+);
+
+watch(
   () => destination.value,
   (newVal) => {
     inputCommonStore.updateCity(newVal);
+    emit('update:destination', newVal);
   },
-  { immediate: true },
 );
 
 watch(
@@ -108,6 +118,7 @@ const emit = defineEmits([
   'update:input-selected',
   'update:reset',
   'reset:input',
+  'update:destination',
 ]);
 </script>
 

@@ -34,7 +34,7 @@ const city = computed(() => inputCommonStore.getCity);
 watch(
   () => city.value,
   (newVal) => {
-    allCities.value = sort(newVal);
+    allCities.value = sort(newVal).slice(0, 5);
   },
 );
 
@@ -115,6 +115,7 @@ function sort(text: string) {
 
 function selectCity(city: string) {
   inputCommonStore.updateCity(city);
+  inputCommonStore.updateIsSelectedCity(!inputCommonStore.getIsSelectedCity);
 }
 
 const emit = defineEmits(['update:selectedRange']);
@@ -143,7 +144,7 @@ const emit = defineEmits(['update:selectedRange']);
     <div
       v-for="(city, indexCity) of allCities"
       :key="indexCity"
-      class="flex items-center text-gray-500"
+      class="flex items-center text-gray-500 cursor-pointer hover:bg-gray-100 rounded-md"
       @click="selectCity(city)"
     >
       <font-awesome-icon :icon="['fas', 'location-dot']" class="pr-2" />
