@@ -31,8 +31,8 @@ watch(
   () => destination.value,
   (newVal) => {
     inputCommonStore.updateCity(newVal);
+    emit('update:destination', newVal);
   },
-  { immediate: true },
 );
 
 watch(
@@ -118,6 +118,7 @@ const emit = defineEmits([
   'update:input-selected',
   'update:reset',
   'reset:input',
+  'update:destination',
 ]);
 </script>
 
