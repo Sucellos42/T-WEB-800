@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
 
 const props = defineProps<{
-  start: string;
-  end: string;
-  reset: boolean;
+  start?: string;
+  end?: string;
+  reset?: boolean;
+  isResponsive: boolean;
 }>();
 
 const destination = ref('');
@@ -124,7 +125,8 @@ const emit = defineEmits([
 
 <template>
   <div
-    class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
+    v-if="!props.isResponsive"
+    class="inline-flex flex-nowrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
     :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
   >
     <div
@@ -230,6 +232,39 @@ const emit = defineEmits([
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
           placeholder="Choisissez un événement"
+          :disabled="true"
+        />
+      </div>
+      <button
+        class="bg-red-500 rounded-full p-2.5 hover:bg-red-400"
+        @click="sendData"
+      >
+        <font-awesome-icon class="text-white" icon="search" />
+      </button>
+    </div>
+  </div>
+  <div
+    v-else
+    class="inline-flex flex-nowrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
+    :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
+  >
+    <div
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
+      :class="[
+        isSelected === 'destination'
+          ? 'bg-white hover:bg-white'
+          : 'hover:bg-airbnb-hover',
+      ]"
+      @click="focusInput('evenement')"
+    >
+      <div class="flex flex-col cursor-pointer pr-4">
+        <label for="prix-input" class="text-sm">Destination</label>
+        <input
+          id="prix-input"
+          v-model="destination"
+          type="text"
+          class="focus:border-transparent focus:outline-none bg-transparent"
+          placeholder="Chercher une ville"
           :disabled="true"
         />
       </div>

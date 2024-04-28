@@ -95,6 +95,7 @@ function updateIsNotEmptyDestination(val: string) {
           :start="start"
           :end="end"
           :reset="reset"
+          :is-responsive="isResponsive"
           @update:input-selected="updateInput"
           @update:reset="reset = false"
           @update:destination="updateIsNotEmptyDestination($event)"
