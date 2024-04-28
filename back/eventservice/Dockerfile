@@ -36,8 +36,6 @@ COPY --chown=node:node --from=dev /app/node_modules ./node_modules
 # Copy source code
 COPY --chown=node:node . .
 
-RUN cp .env.production .env
-
 # Generate the production build. The build script runs "nest build" to compile the application.
 RUN yarn build
 
@@ -61,10 +59,12 @@ ENV NODE_ENV production
 # Copy only the necessary files
 COPY --chown=node:node --from=build /app/ /app
 COPY --chown=node:node --from=build /app/node_modules node_modules
+RUN cp .env.production .env
+
 
 # Set Docker as non-root user
 USER node
 
 # Tail command to keep the container running
 CMD ["tail", "-f", "/dev/null"]
-#CMD ["node", "dist/src/main.js"]
+#CMD ["node", "dist/main.js"]

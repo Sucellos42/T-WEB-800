@@ -79,7 +79,41 @@
 #
 #
 services:
-  db:
+  back-client:
+    container_name: back-client
+    restart: always
+    build:
+      context: ./back/client
+      dockerfile: Dockerfile
+      target: prod
+    env_file:
+      - ./docker/client-service/.env
+    # TODO - remove this line
+    ports:
+      - 3000:3000
+    depends_on:
+      - mariadb
+    networks:
+      - app-network
+
+  back-events:
+    container_name: back-events
+    restart: always
+    build:
+      context: ./back/eventservice
+      dockerfile: Dockerfile
+      target: prod
+    env_file:
+      - ./docker/events-service/.env
+    networks:
+      - app-network
+
+    # TODO - remove this line
+    ports:
+      - 3001:3001
+    depends_on:
+      - mariadb
+  mariadb:
     container_name: mariadb
     restart: always
 #    image: mariadb:latest
@@ -96,8 +130,9 @@ services:
       - ./database/dump.sql:/dump.sql
     ports:
       - ${MYSQL_PORT}:3306
-    command:
+    networks:
+      - app-network
 
-
-
-
+networks:
+  app-network:
+    driver: bridge
