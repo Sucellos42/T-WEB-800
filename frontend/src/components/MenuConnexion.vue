@@ -21,6 +21,10 @@ const props = defineProps<{
 function reset(): void {
   isSelected.value = false;
 }
+
+function changeIsSelected(): void {
+  isSelected.value = !isSelected.value;
+}
 </script>
 
 <template>
@@ -32,13 +36,12 @@ function reset(): void {
   >
     <font-awesome-icon
       v-if="props.isResponsive"
-      v-click-outside="reset"
       :icon="['fas', 'list']"
-      class="text-gray-500 mr-4 p-2 border-1.5 border-gray-500 rounded-full"
+      class="text-gray-500 mr-4 cursor-pointer border-1 rounded-full p-2"
+      @click="changeIsSelected()"
     />
     <InputCommon
       v-if="props.isResponsive"
-      v-click-outside="reset"
       :is-responsive="props.isResponsive"
     />
     <div
@@ -47,9 +50,8 @@ function reset(): void {
       class="inline-flex mt-4 mr-4 ml-4 p-3 items-center rounded-full border-1.5 bg-white cursor-pointer hover:shadow-custom-bottom"
       :class="{
         'shadow-custom-bottom': isSelected,
-        'col-span-1': isResponsive,
       }"
-      @click="isSelected = !isSelected"
+      @click="changeIsSelected()"
     >
       <font-awesome-icon :icon="['fas', 'bars']" class="text-gray-500 mr-4" />
       <font-awesome-icon
@@ -69,6 +71,12 @@ function reset(): void {
       class="flex absolute top-20 mr-4 shadow-custom-all"
     >
       <CardCommon :type="'connexion'" />
+    </div>
+    <div
+      v-if="isSelected && props.isResponsive"
+      class="flex absolute top-20 mr-4 shadow-custom-all mt-10"
+    >
+      <CardCommon :type="'evenement'" :is-responsive="props.isResponsive" />
     </div>
   </div>
 </template>

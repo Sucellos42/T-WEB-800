@@ -10,6 +10,7 @@ export default {
       },
       borderWidth: {
         0.5: '0.5px',
+        1: '1px',
         1.5: '1.5px',
       },
       boxShadow: {

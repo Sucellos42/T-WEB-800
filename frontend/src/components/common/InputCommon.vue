@@ -255,7 +255,7 @@ const emit = defineEmits([
           ? 'bg-white hover:bg-white'
           : 'hover:bg-airbnb-hover',
       ]"
-      @click="focusInput('evenement')"
+      @click="focusInput('destination')"
     >
       <div class="flex flex-col cursor-pointer pr-4">
         <label for="prix-input" class="text-sm">Destination</label>
@@ -265,7 +265,7 @@ const emit = defineEmits([
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
           placeholder="Chercher une ville"
-          :disabled="true"
+          :disabled="false"
         />
       </div>
       <button

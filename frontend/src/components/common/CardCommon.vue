@@ -12,6 +12,7 @@ import { ListEventsJSON } from '~/types/events/events.type.ts';
 
 const props = defineProps<{
   type: string;
+  isResponsive: boolean;
 }>();
 
 const selectedRange = ref({
@@ -27,6 +28,7 @@ const log: string = token ? 'Déconnexion' : 'Connexion';
 const events = ref(useInputCommonStore().getEvents);
 const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
 const allCities = ref(useInputCommonStore().getAllCities);
+const indexParent = ref(-1);
 const allEvents: Ref<ListEventsJSON> = ref(Events);
 
 const citySelected = computed(() => inputCommonStore.getCity);
@@ -34,7 +36,7 @@ const citySelected = computed(() => inputCommonStore.getCity);
 watch(
   () => citySelected.value,
   (newVal) => {
-    allCities.value = sort(newVal);
+    if (newVal) allCities.value = sort(newVal);
   },
   { immediate: true },
 );
@@ -119,6 +121,13 @@ function selectCity(city: string) {
   inputCommonStore.updateIsSelectedCity(!inputCommonStore.getIsSelectedCity);
 }
 
+function updateIndexParent(index: number) {
+  if (indexParent.value === index) {
+    indexParent.value = -1;
+  } else {
+    indexParent.value = index;
+  }
+}
 const emit = defineEmits(['update:selectedRange']);
 </script>
 
@@ -160,7 +169,10 @@ const emit = defineEmits(['update:selectedRange']);
     model="dateTime"
     expanded
   />
-  <div v-if="props.type === 'evenement'" class="grid grid-cols-4 m-2">
+  <div
+    v-if="props.type === 'evenement' && !isResponsive"
+    class="grid grid-cols-4 m-2"
+  >
     <div v-for="(event, name) of allEvents" :key="name" class="pr-2">
       <div class="flex justify-between items-center">
         <div class="text-gray-600 flex items-center">
@@ -184,6 +196,44 @@ const emit = defineEmits(['update:selectedRange']);
           />
           <span class="text-gray-500 text-xs">{{ child }}</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    v-if="props.type === 'evenement' && isResponsive"
+    class="flex flex-col m-4"
+  >
+    <div class="grid grid-cols-4 items-center">
+      <div
+        v-for="(event, indexEvent) of allEvents"
+        :key="indexEvent"
+        class="pr-2"
+      >
+        <div class="flex justify-between items-center">
+          <div class="text-gray-600 flex items-center">
+            <input
+              type="checkbox"
+              class="mr-2"
+              :checked="indexParent === indexEvent"
+              @change="updateIndexParent(indexEvent as number)"
+            />
+            <font-awesome-icon :icon="['fas', event.icon]" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="props.type === 'evenement' && isResponsive && indexParent !== -1"
+      class="w-60 h-72"
+    >
+      <div
+        v-for="(child, indexChild) of allEvents[indexParent].children"
+        :key="indexChild"
+        class="flex items-center"
+      >
+        <input type="checkbox" class="mr-2" />
+        <span class="text-gray-500 text-xs">{{ child }}</span>
       </div>
     </div>
   </div>
