@@ -79,7 +79,7 @@
 #
 #
 services:
-  db:
+  mariadb:
     container_name: mariadb
     restart: always
 #    image: mariadb:latest

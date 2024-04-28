@@ -43,6 +43,7 @@ function changeIsSelected(): void {
     <InputCommon
       v-if="props.isResponsive"
       :is-responsive="props.isResponsive"
+      @update:input-selected=""
     />
     <div
       v-if="!props.isResponsive"

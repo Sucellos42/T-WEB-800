@@ -28,7 +28,7 @@ const log: string = token ? 'Déconnexion' : 'Connexion';
 const events = ref(useInputCommonStore().getEvents);
 const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
 const allCities = ref(useInputCommonStore().getAllCities);
-const indexParent = ref(-1);
+const nameParent = ref('');
 const allEvents: Ref<ListEventsJSON> = ref(Events);
 
 const citySelected = computed(() => inputCommonStore.getCity);
@@ -68,6 +68,7 @@ function allEventsSelected(
   index: number,
   nameParent: string,
 ) {
+
   const childTranslated = translate(nameParent, index);
   const isChecked = (event.target as HTMLInputElement).checked;
   if (isChecked) {
@@ -121,11 +122,11 @@ function selectCity(city: string) {
   inputCommonStore.updateIsSelectedCity(!inputCommonStore.getIsSelectedCity);
 }
 
-function updateIndexParent(index: number) {
-  if (indexParent.value === index) {
-    indexParent.value = -1;
+function updateNameParent(name: string) {
+  if (nameParent.value === name) {
+    nameParent.value = '';
   } else {
-    indexParent.value = index;
+    nameParent.value = name;
   }
 }
 const emit = defineEmits(['update:selectedRange']);
@@ -202,21 +203,21 @@ const emit = defineEmits(['update:selectedRange']);
 
   <div
     v-if="props.type === 'evenement' && isResponsive"
-    class="flex flex-col m-4"
+    class="flex flex-col w-60 m-4"
   >
     <div class="grid grid-cols-4 items-center">
       <div
-        v-for="(event, indexEvent) of allEvents"
-        :key="indexEvent"
+        v-for="(event, name) of allEvents"
+        :key="name"
         class="pr-2"
       >
-        <div class="flex justify-between items-center">
+        <div class="flex justify-center items-center">
           <div class="text-gray-600 flex items-center">
             <input
               type="checkbox"
               class="mr-2"
-              :checked="indexParent === indexEvent"
-              @change="updateIndexParent(indexEvent as number)"
+              :checked="nameParent === name"
+              @change="updateNameParent(name as string)"
             />
             <font-awesome-icon :icon="['fas', event.icon]" />
           </div>
@@ -224,15 +225,15 @@ const emit = defineEmits(['update:selectedRange']);
       </div>
     </div>
     <div
-      v-if="props.type === 'evenement' && isResponsive && indexParent !== -1"
-      class="w-60 h-72"
+      v-if="props.type === 'evenement' && isResponsive && nameParent !== ''"
+      class="h-72 mt-4"
     >
       <div
-        v-for="(child, indexChild) of allEvents[indexParent].children"
+        v-for="(child, indexChild) of allEvents[nameParent].children"
         :key="indexChild"
         class="flex items-center"
       >
-        <input type="checkbox" class="mr-2" />
+        <input type="checkbox" class="mr-2" :checked="events.includes(child)" @change="allEventsSelected($event, child, indexChild, nameParent as string)"/>
         <span class="text-gray-500 text-xs">{{ child }}</span>
       </div>
     </div>
