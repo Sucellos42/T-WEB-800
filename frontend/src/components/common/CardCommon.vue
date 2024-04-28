@@ -11,8 +11,8 @@ import { RangeDateSelected } from '~/types/date/rangeDateSelected.type.ts';
 import { ListEventsJSON } from '~/types/events/events.type.ts';
 
 const props = defineProps<{
-  type: string;
-  isResponsive: boolean;
+  type?: string;
+  isResponsive?: boolean;
 }>();
 
 const selectedRange = ref({
