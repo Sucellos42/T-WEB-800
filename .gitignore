@@ -70,3 +70,4 @@ node_modules
 # Tous les fichier sql qui font plus de 20Mo
 database/*.sql
 database/mariadb-data
+!/.env.production
