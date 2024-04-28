@@ -6,12 +6,14 @@ import MenuConnexion from '~/components/MenuConnexion.vue';
 import HomeFooter from '~/components/HomeFooter.vue';
 import CardCommon from '~/components/common/CardCommon.vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
+import { useGeneralStore } from '~/stores/general/general.store.ts';
 import router from '~/router';
 
 import type { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 
 const route = useRoute();
 const connexionStore = useConnexionStore();
+const generalStore = useGeneralStore();
 const inputType = ref('');
 const start = ref('');
 const end = ref('');
@@ -24,6 +26,7 @@ watch(
   () => sizeWindow.value,
   (newWidth) => {
     isResponsive.value = newWidth < 1024;
+    generalStore.updateIsResponsive(isResponsive.value);
   },
   { immediate: true },
 );
