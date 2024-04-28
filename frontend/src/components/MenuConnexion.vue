@@ -8,6 +8,8 @@ import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 const isSelected = ref(false);
 const token: string | null = localStorage.getItem('token') ?? null;
 const connexionStore = useConnexionStore();
+const inputType = ref('');
+
 
 const initialName: ComputedRef<string> = computed(() => {
   if (!connexionStore.getFirstName) return '';
@@ -25,6 +27,16 @@ function reset(): void {
 function changeIsSelected(): void {
   isSelected.value = !isSelected.value;
 }
+
+function updateInput(type?: string, val: string) {
+  if(type === 'evenement') {
+    inputType.value = inputType.value === val ? '' : val;
+    return;
+  }
+  console.log('updateInput', val)
+  inputType.value = val;
+
+}
 </script>
 
 <template>
@@ -38,12 +50,12 @@ function changeIsSelected(): void {
       v-if="props.isResponsive"
       :icon="['fas', 'list']"
       class="text-gray-500 mr-4 cursor-pointer border-1 rounded-full p-2"
-      @click="changeIsSelected()"
+      @click="updateInput('evenement', 'evenement')"
     />
     <InputCommon
       v-if="props.isResponsive"
       :is-responsive="props.isResponsive"
-      @update:input-selected=""
+      @update:input-selected="updateInput('destination', $event)"
     />
     <div
       v-if="!props.isResponsive"
@@ -74,10 +86,15 @@ function changeIsSelected(): void {
       <CardCommon :type="'connexion'" />
     </div>
     <div
-      v-if="isSelected && props.isResponsive"
+      v-if="inputType === 'evenement' && props.isResponsive"
       class="flex absolute top-20 mr-4 shadow-custom-all mt-10"
     >
-      <CardCommon :type="'evenement'" :is-responsive="props.isResponsive" />
+      <CardCommon :type="inputType" :is-responsive="props.isResponsive" />
+    </div>
+    <div v-if="inputType === 'destination' && props.isResponsive" class="flex absolute top-20 mr-4 shadow-custom-all">
+      <CardCommon
+        :type="inputType"
+      />
     </div>
   </div>
 </template>

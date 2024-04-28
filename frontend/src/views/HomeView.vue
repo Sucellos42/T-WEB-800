@@ -3,12 +3,10 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Input from '~/components/common/InputCommon.vue';
 import MenuConnexion from '~/components/MenuConnexion.vue';
+import HomeFooter from '~/components/HomeFooter.vue';
 import CardCommon from '~/components/common/CardCommon.vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import router from '~/router';
-/*
-import MapCommon from '~/components/events/EventMap.vue';
-*/
 
 import type { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 
@@ -85,7 +83,7 @@ function updateIsNotEmptyDestination(val: string) {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col">
+  <div class="h-screen w-screen flex flex-col" :class="{'justify-between': isResponsive}">
     <div>
       <MenuConnexion :is-responsive="isResponsive" />
     </div>
@@ -115,9 +113,9 @@ function updateIsNotEmptyDestination(val: string) {
         </div>
       </div>
     </div>
-    <!--    <div class="min-h-0 flex-grow p-2.5">
-      <MapCommon />
-    </div>-->
+    <div v-if="isResponsive">
+      <HomeFooter />
+    </div>
   </div>
 </template>
 
