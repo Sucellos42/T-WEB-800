@@ -1,22 +1,31 @@
-// @ts-ignore
-
 import { Injectable } from "@nestjs/common";
 import { EventInterface } from "./interfaces/event.interface";
 import * as mariadb from "mariadb";
+import {environments} from "eslint-plugin-prettier";
+import {ConfigService} from "@nestjs/config";
 
-const pool = mariadb.createPool({
-  host: "10.18.205.115",
-  user: "user",
-  password: "user",
-  database: "db_web",
-});
+
+// const pool: mariadb.Pool = mariadb.createPool(config);
 @Injectable()
 export class AppService {
+  private pool: mariadb.Pool;
+  constructor(private readonly configService: ConfigService) {
+    const mariaDbConfig: mariadb.PoolConfig = {
+      host: this.configService.get<string>('MYSQL_HOST'),
+      user: this.configService.get<string>('MYSQL_USER'),
+      password: this.configService.get<string>('MYSQL_PASSWORD'),
+      database: this.configService.get<string>('MYSQL_DATABASE'),
+      port: parseInt(this.configService.get<string>('MYSQL_PORT')),
+      connectionLimit: 5,
+    }
+
+    this.pool = mariadb.createPool(mariaDbConfig);
+  }
   async getEventsByCity(city: string): Promise<EventInterface[]> {
     let eventsByCity: EventInterface[] = [];
 
     try {
-      const connection = await pool.getConnection();
+      const connection = await this.pool.getConnection();
       const result = await connection.query(
         "SELECT * FROM events_by_address WHERE city = ? LIMIT 50",
         [city]
@@ -49,7 +58,7 @@ export class AppService {
     let eventsByType: EventInterface[] = [];
 
     try {
-      const connection = await pool.getConnection();
+      const connection = await this.pool.getConnection();
 
       let query = "SELECT * FROM events_by_address WHERE ";
       const params: string[] = [];
@@ -60,7 +69,7 @@ export class AppService {
         query += "event_type LIKE ?";
         params.push(`%${type[i]}%`);
       }
-      const result = await pool.query(query, params);
+      const result = await this.pool.query(query, params);
 
       for (let i = 0; i < result.length; i++) {
         eventsByType.push({
@@ -90,7 +99,7 @@ export class AppService {
     let eventsByCoordinates: EventInterface[] = [];
 
     try {
-      const connection = await pool.getConnection();
+      const connection = await this.pool.getConnection();
       const result = await connection.query(
         "SELECT * FROM events_by_address WHERE latitude >= ? AND latitude <= ? AND longitude >= ? AND longitude <= ? LIMIT 50",
         coordinates
@@ -127,7 +136,7 @@ export class AppService {
     let eventsByCityAndType: EventInterface[] = [];
 
     try {
-      const connection = await pool.getConnection();
+      const connection = await this.pool.getConnection();
       console.log("passage 2");
       let query = "SELECT * FROM events_by_address WHERE city = ? AND ";
       const params: string[] = [city];
@@ -138,7 +147,7 @@ export class AppService {
         query += "event_type LIKE ?";
         params.push(`%${types[i]}%`);
       }
-      const result = await pool.query(query, params);
+      const result = await this.pool.query(query, params);
 
       for (let i = 0; i < result.length; i++) {
         eventsByCityAndType.push({
@@ -166,7 +175,7 @@ export class AppService {
     let cities: string[] = [];
 
     try {
-      const connection = await pool.getConnection();
+      const connection = await this.pool.getConnection();
       const result = await connection.query(
         "SELECT DISTINCT city FROM events_by_address order by city ASC;"
       );
