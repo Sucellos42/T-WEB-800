@@ -2,6 +2,7 @@
 import { ref, defineProps, watch, defineEmits } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
+import router from "~/router";
 
 const props = defineProps<{
   start?: string;
@@ -113,6 +114,7 @@ function resetAllValues() {
 
 function sendData() {
   inputCommonStore.loadAllData();
+  router.push('/map');
 }
 
 const emit = defineEmits([

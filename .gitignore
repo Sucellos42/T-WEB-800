@@ -63,6 +63,9 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .pnpm-store
 pnpm-lock.yaml
 .idea
-package-lock.json
 
 node_modules
+
+# Tous les fichier sql qui font plus de 20Mo
+database/*.sql
+database/mariadb-data
