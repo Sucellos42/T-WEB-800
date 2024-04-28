@@ -2,8 +2,9 @@
 
 CONTAINER_NAME="mariadb"
 
-# Docker compose
-docker-compose up -d --build
+# Docker compose du service mariadb
+
+docker-compose up -d --build mariadb
 
 
 # Attendre que MariaDB soit prêt (remplacer 30 par le nombre de secondes approprié)
