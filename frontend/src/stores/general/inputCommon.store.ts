@@ -6,6 +6,9 @@ import { InputCommonType } from '~/types/storeType/inputCommon.type';
 import { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 import { EventsSelected } from '~/types/events/events.type';
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+
 export const useInputCommonStore = defineStore('inputCommon', {
   state: (): InputCommonType => ({
     city: '',
@@ -49,7 +52,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
       useMapStore().isLoading = true;
       try {
         const res = await fetch(
-          `http://localhost:3000/events/bycityandtype/${city}`,
+          `${apiBaseUrl}/events/bycityandtype/${city}`,
           {
             method: 'POST',
             headers: {
@@ -68,7 +71,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
     },
     async loadAllCities() {
       try {
-        const res = await fetch('http://localhost:3000/events/getcity', {
+        const res = await fetch(`${apiBaseUrl}/events/getcity`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

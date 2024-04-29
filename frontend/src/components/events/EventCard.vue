@@ -14,18 +14,18 @@
         <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="">
           {{ 'Read more' }}
         </button>
+
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { defineProps } from 'vue';
 import { Event } from '~/types/events/events.type';
 
 const props = defineProps<{ event: Event }>();
 const event = props.event;
-const { label, description, address, photo_url, latitude, longitude, id, city} = event;
-
+const { label, description, address, photo_url, city, event_type} = event;
 
 const truncatedDescription = description.length > 100 ? description.substring(0, 97) + '...' : description;
 

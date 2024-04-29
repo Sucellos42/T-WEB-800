@@ -22,13 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted, computed, watchEffect} from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import 'leaflet/dist/leaflet.css';
 import {
   map,
   latLng,
   tileLayer,
-  MapOptions,
   marker,
   Map as LeafletMap,
 } from 'leaflet';
@@ -42,7 +41,7 @@ import {useMapStore} from "~/stores/general/map.store.ts";
 // const store = useMapStore();
 
 const selectedEvent = ref<Event | null>(null);
-const visibleEvents = ref<Event[]>();
+const visibleEvents = ref<Event[]>([]);
 const store = useMapStore();
 let events: Event[] = computed(() => store.getAllEvents).value;
 // let events: Event[] = useMapStore().getAllEvents;
