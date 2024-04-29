@@ -19,23 +19,10 @@ const start = ref('');
 const end = ref('');
 const reset = ref(false);
 const isNotEmptyDestination = ref(false);
-const isResponsive = ref(window.innerWidth < 1024);
-const sizeWindow = ref(window.innerWidth);
 
-watch(
-  () => sizeWindow.value,
-  (newWidth) => {
-    console.log(newWidth);
-    isResponsive.value = newWidth < 1024;
-    generalStore.updateIsResponsive(isResponsive.value);
-  },
-  { immediate: true },
-);
+
 
 onMounted(() => {
-  window.addEventListener('resize', () => {
-    sizeWindow.value = window.innerWidth;
-  });
   if (!localStorage.getItem('token') && route.query.token) {
     localStorage.setItem('token', route.query.token as string);
     localStorage.setItem('firstName', route.query.firstName as string);
@@ -47,11 +34,6 @@ onMounted(() => {
   }
 });
 
-onUnmounted(() => {
-  window.removeEventListener('resize', () => {
-    sizeWindow.value = window.innerWidth;
-  });
-});
 
 function updateInput(val: string) {
   inputType.value = val;
@@ -87,17 +69,17 @@ function updateIsNotEmptyDestination(val: string) {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col" :class="{'justify-between': isResponsive}">
+  <div class="h-screen w-screen flex flex-col" :class="{'justify-between': generalStore.getIsResponsive}">
     <div>
-      <MenuConnexion :is-responsive="isResponsive" />
+      <MenuConnexion :is-responsive="generalStore.getIsResponsive" />
     </div>
     <div v-click-outside="updateReset" class="w-full flex justify-center mt-10">
-      <div v-if="!isResponsive" class="flex flex-col">
+      <div v-if="!generalStore.getIsResponsive" class="flex flex-col">
         <Input
           :start="start"
           :end="end"
           :reset="reset"
-          :is-responsive="isResponsive"
+          :is-responsive="generalStore.getIsResponsive"
           @update:input-selected="updateInput"
           @update:reset="reset = false"
           @update:destination="updateIsNotEmptyDestination($event)"
@@ -117,7 +99,7 @@ function updateIsNotEmptyDestination(val: string) {
         </div>
       </div>
     </div>
-    <div v-if="isResponsive">
+    <div v-if="generalStore.getIsResponsive">
       <HomeFooter />
     </div>
   </div>

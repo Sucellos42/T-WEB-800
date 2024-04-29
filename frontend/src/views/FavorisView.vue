@@ -7,7 +7,8 @@ import router from '~/router';
 
 import { FavorisType } from '~/types/storeType/general.type';
 
-const isResponsive = useGeneralStore().getIsResponsive;
+const generalStore = useGeneralStore();
+
 
 async function sendData(data: FavorisType) {
   await useInputCommonStore().loadAllData(true, data);
@@ -18,8 +19,10 @@ async function sendData(data: FavorisType) {
 </script>
 
 <template>
-  <MenuConnexion v-if="!isResponsive" />
-  <div :class="{'h-screen w-screen flex flex-col justify-between mt-2': isResponsive}" class="m-4 flex flex-col justify-between mt-40">
+  <div v-if="!generalStore.getIsResponsive">
+    <MenuConnexion />
+  </div>
+  <div :class="[generalStore.getIsResponsive ? 'h-screen': 'mt-40']" class="m-4 flex flex-col justify-between">
     <table class="w-full text-xl text-gray-500 border-collapse">
       <thead>
       <tr>
@@ -28,7 +31,7 @@ async function sendData(data: FavorisType) {
       </tr>
       </thead>
       <tbody v-if="useGeneralStore().getFavoris.length > 0">
-      <tr v-for="(favorites, index) in useGeneralStore().getFavoris" :key="index" class="text-xs p-2" :class="{'hover:bg-gray-100 cursor-pointer': !isResponsive}"
+      <tr v-for="(favorites, index) in generalStore.getFavoris" :key="index" class="text-xs p-2" :class="{'hover:bg-gray-100 cursor-pointer': !generalStore.getIsResponsive}"
           @click="sendData(favorites)"
       >
         <td class="border-2 p-2">{{ favorites.city }}</td>
@@ -39,7 +42,7 @@ async function sendData(data: FavorisType) {
       </tr>
       </tbody>
     </table>
-    <div v-if="isResponsive">
+    <div v-if="generalStore.getIsResponsive === true">
       <HomeFooter />
     </div>
   </div>

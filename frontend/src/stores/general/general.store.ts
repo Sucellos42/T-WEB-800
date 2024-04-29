@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-
 import { GeneralType } from '~/types/storeType/general.type';
+
 
 export const useGeneralStore = defineStore('general', {
     state: (): GeneralType => ({
-        isResponsive: false,
+        isResponsive: JSON.parse(localStorage.getItem('isResponsive') || window.innerWidth < 1024),
         favoris: JSON.parse(localStorage.getItem('favoris') || '[]'),
     }),
     getters: {
@@ -14,6 +14,7 @@ export const useGeneralStore = defineStore('general', {
     actions: {
         updateIsResponsive(newIsResponsive: boolean) {
             this.isResponsive = newIsResponsive;
+            localStorage.setItem('isResponsive', JSON.stringify(this.getIsResponsive));
         },
         updateFavoris(newFavoris: FavorisType) {
             this.favoris.push(newFavoris);
