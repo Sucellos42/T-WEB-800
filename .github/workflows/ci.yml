@@ -2,7 +2,7 @@ name: CI Workflow
 
 on:
   push:
-    branches: [CI/CD]
+    branches: [setup/cicd]
 
 jobs:
   setup:
