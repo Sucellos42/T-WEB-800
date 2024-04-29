@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
 
 import { useMapStore } from '~/stores/general/map.store';
+import { useGeneralStore } from '~/stores/general/general.store';
 
 import { InputCommonType } from '~/types/storeType/inputCommon.type';
 import { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 import { EventsSelected } from '~/types/events/events.type';
-import { useGeneralStore } from '~/stores/general/general.store';
+import { FavorisType } from '~/types/storeType/general.type';
 
 export const useInputCommonStore = defineStore('inputCommon', {
   state: (): InputCommonType => ({
@@ -25,12 +26,17 @@ export const useInputCommonStore = defineStore('inputCommon', {
     getIsSelectedCity: (state) => state.isSelectedCity,
   },
   actions: {
-    async loadAllData() {
-      if (this.city.length > 0 && this.eventsTranslated.length > 0) {
+    async loadAllData(callback: boolean, favoris?: FavorisType) {
+      if (this.city.length > 0 && this.eventsTranslated.length > 0 && !callback) {
         await this.loadEventsWithCity(this.getCity, this.getEventsTranslated);
-        useGeneralStore().updateFavoris({city: this.getCity, events: this.getEvents});
+        useGeneralStore().updateFavoris({city: this.getCity, events: this.getEvents, eventsTranslated: this.getEventsTranslated});
         this.updateEvents([], []);
         this.updateCity('');
+      }
+      else if (favoris && callback) {
+        await this.loadEventsWithCity(favoris.city, favoris.eventsTranslated);
+        this.updateCity('');
+        this.updateEvents([], []);
       }
     },
     updateEvents(

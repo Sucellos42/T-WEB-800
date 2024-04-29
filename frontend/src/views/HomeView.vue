@@ -25,6 +25,7 @@ const sizeWindow = ref(window.innerWidth);
 watch(
   () => sizeWindow.value,
   (newWidth) => {
+    console.log(newWidth);
     isResponsive.value = newWidth < 1024;
     generalStore.updateIsResponsive(isResponsive.value);
   },

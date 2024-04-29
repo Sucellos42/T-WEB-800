@@ -113,10 +113,8 @@ function resetAllValues() {
 }
 
 function sendData() {
-  inputCommonStore.loadAllData();
-/*
+  inputCommonStore.loadAllData(false);
   router.push('/map');
-*/
 }
 
 const emit = defineEmits([
@@ -130,7 +128,7 @@ const emit = defineEmits([
 <template>
   <div
     v-if="!props.isResponsive"
-    class="inline-flex flex-nowrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
+    class="inline-flex flex-nowrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600 mt-20"
     :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
   >
     <div

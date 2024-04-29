@@ -2,6 +2,7 @@
 import { defineProps, Ref, ref, computed, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
+import router from '~/router';
 
 import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -129,6 +130,14 @@ function updateNameParent(name: string) {
     nameParent.value = name;
   }
 }
+
+function connexion() {
+  if (token) {
+    connexionStore.logout();
+  } else {
+    connexionStore.oAuthLogin();
+  }
+}
 const emit = defineEmits(['update:selectedRange']);
 </script>
 
@@ -138,13 +147,12 @@ const emit = defineEmits(['update:selectedRange']);
     class="flex flex-col border-0.5 border-gray-300 rounded-md p-4 gap-y-0.5"
   >
     <span
-      v-if="!token"
       class="hover:text-red-500"
-      @click="connexionStore.oAuthLogin()"
+      @click="router.push('/favoris')"
     >
-      Inscription
+      favoris
     </span>
-    <span class="hover:text-red-500" @click="connexionStore.logout()">
+    <span class="hover:text-red-500" @click="connexion">
       {{ log }}
     </span>
   </div>
