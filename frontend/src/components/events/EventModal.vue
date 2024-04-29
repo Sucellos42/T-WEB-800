@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 // import { defineProps, defineEmits } from 'vue';
-import { Event } from '~/types/eventsTypes';
+import { Event } from '~/types/events/events.type';
 
 const props = defineProps<{ event: Event | null }>();
 const emit = defineEmits(['update:event']);

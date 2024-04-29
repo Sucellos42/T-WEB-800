@@ -22,29 +22,29 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted, computed, watchEffect} from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import 'leaflet/dist/leaflet.css';
 import {
   map,
   latLng,
   tileLayer,
-  MapOptions,
   marker,
   Map as LeafletMap,
 } from 'leaflet';
 import {Event} from '~/types/events/events.type';
-import eventData from '~/data/events.json';
+// import eventData from '~/data/events.json';
 import EventCard from '~/components/events/EventCard.vue';
 import EventList from '~/components/events/EventList.vue';
 import EventModal from '~/components/events/EventModal.vue';
-// import {useMapStore} from "~/stores/general/map.store.ts";
+import {useMapStore} from "~/stores/general/map.store.ts";
 
 // const store = useMapStore();
 
 const selectedEvent = ref<Event | null>(null);
-const visibleEvents = ref<Event[]>();
-// let events: Event[] = computed(() => store.getAllEvents).value;
-let events: Event[] = eventData;
+const visibleEvents = ref<Event[]>([]);
+const store = useMapStore();
+let events: Event[] = computed(() => store.getAllEvents).value;
+// let events: Event[] = useMapStore().getAllEvents;
 
 const updateVisibleEvents = (map: LeafletMap, events: Event[]) => {
   visibleEvents.value = events.filter((event) => {
@@ -57,11 +57,11 @@ const updateVisibleEvents = (map: LeafletMap, events: Event[]) => {
 onMounted(async () => {
   console.log(events.length, 'Events loaded');
   // Réduire le nombre d'event à charger à 20
-  if (events.length > 200) events = events.slice(0, 200);
-  // if (events.length === 0) {
+  if (events.length === 0) {
     // wait 1 second to simulate loading
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // events = store.getAllEvents;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    events = store.getAllEvents;
+  }
     console.log(events, 'Events loadedddddd')
     const myMap: LeafletMap = map('map', {
       center: [events[0].latitude, events[0].longitude],
@@ -76,7 +76,6 @@ onMounted(async () => {
       const lng = Number(event.latitude);
       return myMap.getBounds().contains(latLng(lat, lng));
     });
-  // }
 
   if (events.length > 0) {
     updateVisibleEvents(myMap, events);

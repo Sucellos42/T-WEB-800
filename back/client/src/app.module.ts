@@ -12,15 +12,18 @@ import { GoogleModule } from './google/google.module';
       provide: 'EVENTS_SERVICE',
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
+        const host = configService.get('EVENTS_SERVICE_HOST');
+        const port = configService.get('EVENTS_SERVICE_PORT');
+        console.log(`Connecting to ${host}:${port}`);  // Ajouter ce log
         return ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
-            host: configService.get('EVENTS_SERVICE_HOST'),
-            port: configService.get('EVENTS_SERVICE_PORT'),
+            host: host,
+            port: port,
           },
         });
       },
-    },
+    }
   ],
 })
 export class AppModule {}

@@ -1,28 +1,25 @@
-FROM node:21-slim AS base
-# Définir l'emplacement de PNPM et l'ajouter au PATH
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-# Activer corepack pour utiliser pnpm
-RUN corepack enable
+FROM node:lts-alpine
 
-FROM base AS dev
-WORKDIR /app/frontend
+# installe un simple serveur http pour servir un contenu statique
+RUN npm install -g http-server
 
-# Définir l'environnement de développement
-ENV NODE_ENV=development
+# définit le dossier 'app' comme dossier de travail
+WORKDIR /app
 
-RUN chown -R node:node /app/frontend
+# copie 'package.json' et 'package-lock.json' (si disponible)
+COPY package*.json ./
 
-COPY package.json ./
+# installe les dépendances du projet
+RUN npm install
 
-RUN touch hello.txt
+# copie les fichiers et dossiers du projet dans le dossier de travail (par exemple : le dossier 'app')
+COPY . .
 
-# Installer les dépendances
-RUN pnpm install
+# .env
+COPY .env.local .env
 
-# Copier le code source et attribuer la propriété à l'utilisateur node
-COPY --chown=node:node . .
+# construit l'app pour la production en la minifiant
+RUN npm run build
 
-# Utiliser l'utilisateur non-root
-USER node
-
+EXPOSE 8080
+CMD [ "http-server", "dist" ]
