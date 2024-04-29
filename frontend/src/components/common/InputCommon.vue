@@ -114,7 +114,9 @@ function resetAllValues() {
 
 function sendData() {
   inputCommonStore.loadAllData();
+/*
   router.push('/map');
+*/
 }
 
 const emit = defineEmits([
@@ -147,7 +149,7 @@ const emit = defineEmits([
           v-model="destination"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
-          placeholder="Rechercher une destination"
+          placeholder="Chercher une ville"
         />
       </div>
       <button
@@ -233,7 +235,7 @@ const emit = defineEmits([
           v-model="evenement"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
-          placeholder="Choisissez un événement"
+          placeholder="Choisir un événement"
           :disabled="true"
         />
       </div>

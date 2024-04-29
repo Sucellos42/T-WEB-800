@@ -5,6 +5,7 @@ import { useMapStore } from '~/stores/general/map.store';
 import { InputCommonType } from '~/types/storeType/inputCommon.type';
 import { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 import { EventsSelected } from '~/types/events/events.type';
+import { useGeneralStore } from '~/stores/general/general.store';
 
 export const useInputCommonStore = defineStore('inputCommon', {
   state: (): InputCommonType => ({
@@ -27,6 +28,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
     async loadAllData() {
       if (this.city.length > 0 && this.eventsTranslated.length > 0) {
         await this.loadEventsWithCity(this.getCity, this.getEventsTranslated);
+        useGeneralStore().updateFavoris({city: this.getCity, events: this.getEvents});
         this.updateEvents([], []);
         this.updateCity('');
       }

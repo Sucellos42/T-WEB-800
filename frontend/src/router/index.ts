@@ -5,7 +5,6 @@ import UserView from '~/views/UserView.vue';
 import FavorisView from '~/views/FavorisView.vue';
 import { isResponsiveGuard } from '~/router/guards.ts';
 
-// Définissez vos routes ici
 const routes = [
   {
     path: '/',
