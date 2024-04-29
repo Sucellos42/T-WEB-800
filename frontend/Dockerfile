@@ -16,7 +16,7 @@ RUN npm install
 COPY . .
 
 # .env
-COPY .env.local .env
+COPY .env.production .env
 
 # construit l'app pour la production en la minifiant
 RUN npm run build

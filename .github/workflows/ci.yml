@@ -1,54 +1,38 @@
-name: Continuous Integration
+name: CI Workflow
 
 on:
   push:
-    branches: [zubzub]
+    branches: [CI/CD]
 
 jobs:
-  build-and-test:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-keys.outputs.backend }}-${{ steps.cache-keys.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: cache-keys
+        run: |
+          echo "::set-output name=backend::$(find backend -type f -exec md5sum {} + | sort -k 2 | md5sum | awk '{print $1}')"
+          echo "::set-output name=frontend::$(find frontend -type f -exec md5sum {} + | sort -k 2 | md5sum | awk '{print $1}')"
+  build-and-test:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.X, 21.X]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: ${{ matrix.node-version }}
+          cache: npm
 
       - name: Install Docker and Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-      - name: Run startdocker.sh
-        run: |
-          chmod +x ./startdocker.sh
-          ./startdocker.sh
-
-      - name: Install dependencies for Service 1
-        run: npm install
-        working-directory: ./backend/service1
-
-      - name: Install dependencies for Service 2
-        run: npm install
-        working-directory: ./backend/service2
-
-      - name: Install dependencies for Frontend
-        run: npm install
-        working-directory: ./frontend
-
-      - name: Run tests for Service 1
-        run: npm test
-        working-directory: ./backend/service1
-
-      - name: Run tests for Service 2
-        run: npm test
-        working-directory: ./backend/service2
-
-      - name: Run tests for Frontend
-        run: npm test
-        working-directory: ./frontend
-
-      # Ajouter d'autres étapes pour le déploiement ou d'autres actions spécifiques selon les besoins
+                - name: Run startdocker.sh
+          
