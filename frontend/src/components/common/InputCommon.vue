@@ -5,9 +5,10 @@ import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
 import router from "~/router";
 
 const props = defineProps<{
-  start: string;
-  end: string;
-  reset: boolean;
+  start?: string;
+  end?: string;
+  reset?: boolean;
+  isResponsive: boolean;
 }>();
 
 const destination = ref('');
@@ -112,7 +113,7 @@ function resetAllValues() {
 }
 
 function sendData() {
-  inputCommonStore.loadAllData();
+  inputCommonStore.loadAllData(false);
   router.push('/map');
 }
 
@@ -126,11 +127,12 @@ const emit = defineEmits([
 
 <template>
   <div
-    class="inline-flex flex-wrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
+    v-if="!props.isResponsive"
+    class="inline-flex flex-nowrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600 mt-20"
     :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
   >
     <div
-      class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'destination'
           ? 'bg-white hover:bg-white'
@@ -138,14 +140,14 @@ const emit = defineEmits([
       ]"
       @click="focusInput('destination')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="depart-input" class="text-sm">Destination</label>
         <input
           id="destination-input"
           v-model="destination"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
-          placeholder="Rechercher une destination"
+          placeholder="Chercher une ville"
         />
       </div>
       <button
@@ -158,7 +160,7 @@ const emit = defineEmits([
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
     <div
-      class="flex relative justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex relative justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'arrivee'
           ? 'bg-white hover:bg-white'
@@ -166,7 +168,7 @@ const emit = defineEmits([
       ]"
       @click="focusInput('arrivee')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="depart-input" class="text-sm">Arrivée</label>
         <input
           id="depart-input"
@@ -187,7 +189,7 @@ const emit = defineEmits([
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
     <div
-      class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'depart'
           ? 'bg-white hover:bg-white'
@@ -195,7 +197,7 @@ const emit = defineEmits([
       ]"
       @click="focusInput('depart')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="arrivee-input" class="text-sm">Départ</label>
         <input
           id="arrivee-input"
@@ -216,7 +218,7 @@ const emit = defineEmits([
     </div>
     <span class="border-l-1.5 border-gray-300 m-2" />
     <div
-      class="flex justify-between p-4 rounded-6xl hover:bg-airbnb-hover"
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
       :class="[
         isSelected === 'evenement'
           ? 'bg-white hover:bg-white'
@@ -224,18 +226,54 @@ const emit = defineEmits([
       ]"
       @click="focusInput('evenement')"
     >
-      <div class="flex flex-col pr-4">
+      <div class="flex flex-col cursor-pointer pr-4">
         <label for="prix-input" class="text-sm">Evénements</label>
         <input
           id="prix-input"
           v-model="evenement"
           type="text"
           class="focus:border-transparent focus:outline-none bg-transparent"
-          placeholder="Choisissez un événement"
+          placeholder="Choisir un événement"
           :disabled="true"
         />
       </div>
-      <button class="bg-red-500 rounded-full p-2.5" @click="sendData">
+      <button
+        class="bg-red-500 rounded-full p-2.5 hover:bg-red-400"
+        @click="sendData"
+      >
+        <font-awesome-icon class="text-white" icon="search" />
+      </button>
+    </div>
+  </div>
+  <div
+    v-else
+    class="inline-flex flex-nowrap rounded-6xl border-0.5 border-gray-300 shadow-custom-bottom text-gray-600"
+    :class="[isHidden ? 'bg-airbnb' : 'bg-white']"
+  >
+    <div
+      class="flex justify-between p-4 rounded-6xl cursor-pointer hover:bg-airbnb-hover"
+      :class="[
+        isSelected === 'destination'
+          ? 'bg-white hover:bg-white'
+          : 'hover:bg-airbnb-hover',
+      ]"
+      @click="focusInput('destination')"
+    >
+      <div class="flex flex-col cursor-pointer pr-4">
+        <label for="prix-input" class="text-sm">Destination</label>
+        <input
+          id="prix-input"
+          v-model="destination"
+          type="text"
+          class="focus:border-transparent focus:outline-none bg-transparent"
+          placeholder="Chercher une ville"
+          :disabled="false"
+        />
+      </div>
+      <button
+        class="bg-red-500 rounded-full p-2.5 hover:bg-red-400"
+        @click="sendData"
+      >
         <font-awesome-icon class="text-white" icon="search" />
       </button>
     </div>

@@ -2,6 +2,7 @@
 import { defineProps, Ref, ref, computed, watch, defineEmits } from 'vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
 import { useInputCommonStore } from '~/stores/general/inputCommon.store.ts';
+import router from '~/router';
 
 import { DatePicker as VDatePicker } from 'v-calendar';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -11,7 +12,8 @@ import { RangeDateSelected } from '~/types/date/rangeDateSelected.type.ts';
 import { ListEventsJSON } from '~/types/events/events.type.ts';
 
 const props = defineProps<{
-  type: string;
+  type?: string;
+  isResponsive?: boolean;
 }>();
 
 const selectedRange = ref({
@@ -27,15 +29,17 @@ const log: string = token ? 'Déconnexion' : 'Connexion';
 const events = ref(useInputCommonStore().getEvents);
 const eventsTranslated = ref(useInputCommonStore().getEventsTranslated);
 const allCities = ref(useInputCommonStore().getAllCities);
+const nameParent = ref('');
 const allEvents: Ref<ListEventsJSON> = ref(Events);
 
-const city = computed(() => inputCommonStore.getCity);
+const citySelected = computed(() => inputCommonStore.getCity);
 
 watch(
-  () => city.value,
+  () => citySelected.value,
   (newVal) => {
-    allCities.value = sort(newVal).slice(0, 5);
+    if (newVal) allCities.value = sort(newVal);
   },
+  { immediate: true },
 );
 
 watch(
@@ -65,6 +69,7 @@ function allEventsSelected(
   index: number,
   nameParent: string,
 ) {
+
   const childTranslated = translate(nameParent, index);
   const isChecked = (event.target as HTMLInputElement).checked;
   if (isChecked) {
@@ -118,6 +123,21 @@ function selectCity(city: string) {
   inputCommonStore.updateIsSelectedCity(!inputCommonStore.getIsSelectedCity);
 }
 
+function updateNameParent(name: string) {
+  if (nameParent.value === name) {
+    nameParent.value = '';
+  } else {
+    nameParent.value = name;
+  }
+}
+
+function connexion() {
+  if (token) {
+    connexionStore.logout();
+  } else {
+    connexionStore.oAuthLogin();
+  }
+}
 const emit = defineEmits(['update:selectedRange']);
 </script>
 
@@ -127,22 +147,21 @@ const emit = defineEmits(['update:selectedRange']);
     class="flex flex-col border-0.5 border-gray-300 rounded-md p-4 gap-y-0.5"
   >
     <span
-      v-if="!token"
       class="hover:text-red-500"
-      @click="connexionStore.oAuthLogin()"
+      @click="router.push('/favoris')"
     >
-      Inscription
+      favoris
     </span>
-    <span class="hover:text-red-500" @click="connexionStore.logout()">
+    <span class="hover:text-red-500" @click="connexion">
       {{ log }}
     </span>
   </div>
   <div
-    v-if="props.type === 'destination' && city"
-    class="flex flex-col rounded-md p-4"
+    v-if="props.type === 'destination' && citySelected"
+    class="flex flex-col cursor-pointer rounded-md p-4"
   >
     <div
-      v-for="(city, indexCity) of allCities"
+      v-for="(city, indexCity) of allCities.slice(0, 5)"
       :key="indexCity"
       class="flex items-center text-gray-500 cursor-pointer hover:bg-gray-100 rounded-md"
       @click="selectCity(city)"
@@ -159,7 +178,10 @@ const emit = defineEmits(['update:selectedRange']);
     model="dateTime"
     expanded
   />
-  <div v-if="props.type === 'evenement'" class="grid grid-cols-4 m-2">
+  <div
+    v-if="props.type === 'evenement' && !isResponsive"
+    class="grid grid-cols-4 m-2"
+  >
     <div v-for="(event, name) of allEvents" :key="name" class="pr-2">
       <div class="flex justify-between items-center">
         <div class="text-gray-600 flex items-center">
@@ -183,6 +205,44 @@ const emit = defineEmits(['update:selectedRange']);
           />
           <span class="text-gray-500 text-xs">{{ child }}</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    v-if="props.type === 'evenement' && isResponsive"
+    class="flex flex-col w-60 m-4"
+  >
+    <div class="grid grid-cols-4 items-center">
+      <div
+        v-for="(event, name) of allEvents"
+        :key="name"
+        class="pr-2"
+      >
+        <div class="flex justify-center items-center">
+          <div class="text-gray-600 flex items-center">
+            <input
+              type="checkbox"
+              class="mr-2"
+              :checked="nameParent === name"
+              @change="updateNameParent(name as string)"
+            />
+            <font-awesome-icon :icon="['fas', event.icon]" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="props.type === 'evenement' && isResponsive && nameParent !== ''"
+      class="h-72 mt-4"
+    >
+      <div
+        v-for="(child, indexChild) of allEvents[nameParent].children"
+        :key="indexChild"
+        class="flex items-center"
+      >
+        <input type="checkbox" class="mr-2" :checked="events.includes(child)" @change="allEventsSelected($event, child, indexChild, nameParent as string)"/>
+        <span class="text-gray-500 text-xs">{{ child }}</span>
       </div>
     </div>
   </div>

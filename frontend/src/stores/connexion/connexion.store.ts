@@ -27,8 +27,8 @@ export const useConnexionStore = defineStore('connexion', {
         this.user = {};
         this.firstName = '';
         localStorage.removeItem('token');
+        localStorage.removeItem('firstName');
         router.push('/');
-        window.location.reload();
         return;
       }
       return;

@@ -26,5 +26,10 @@ export type Event = {
   photo_url: string;
 };
 
+export type EventCallBack = {
+  city: string;
+    events: Event[];
+}
+
 // all events for store
 export type AllEvents = Event[];

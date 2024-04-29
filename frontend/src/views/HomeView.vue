@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Input from '~/components/common/InputCommon.vue';
 import MenuConnexion from '~/components/MenuConnexion.vue';
+import HomeFooter from '~/components/HomeFooter.vue';
 import CardCommon from '~/components/common/CardCommon.vue';
 import { useConnexionStore } from '~/stores/connexion/connexion.store.ts';
+import { useGeneralStore } from '~/stores/general/general.store.ts';
 import router from '~/router';
 
 import type { RangeDateSelected } from '~/types/date/rangeDateSelected.type';
 
 const route = useRoute();
 const connexionStore = useConnexionStore();
+const generalStore = useGeneralStore();
 const inputType = ref('');
 const start = ref('');
 const end = ref('');
 const reset = ref(false);
 const isNotEmptyDestination = ref(false);
+
+
 
 onMounted(() => {
   if (!localStorage.getItem('token') && route.query.token) {
@@ -28,6 +33,7 @@ onMounted(() => {
     connexionStore.setFirstName(localStorage.getItem('firstName') as string);
   }
 });
+
 
 function updateInput(val: string) {
   inputType.value = val;
@@ -63,16 +69,17 @@ function updateIsNotEmptyDestination(val: string) {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col">
+  <div class="h-screen w-screen flex flex-col" :class="{'justify-between': generalStore.getIsResponsive}">
     <div>
-      <MenuConnexion />
+      <MenuConnexion :is-responsive="generalStore.getIsResponsive" />
     </div>
     <div v-click-outside="updateReset" class="w-full flex justify-center mt-10">
-      <div class="flex flex-col">
+      <div v-if="!generalStore.getIsResponsive" class="flex flex-col">
         <Input
           :start="start"
           :end="end"
           :reset="reset"
+          :is-responsive="generalStore.getIsResponsive"
           @update:input-selected="updateInput"
           @update:reset="reset = false"
           @update:destination="updateIsNotEmptyDestination($event)"
@@ -92,9 +99,9 @@ function updateIsNotEmptyDestination(val: string) {
         </div>
       </div>
     </div>
-<!--    <div class="min-h-0 flex-grow p-2.5">-->
-<!--      <MapCommon />-->
-<!--    </div>-->
+    <div v-if="generalStore.getIsResponsive">
+      <HomeFooter />
+    </div>
   </div>
 </template>
 

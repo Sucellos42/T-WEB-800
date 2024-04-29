@@ -14,6 +14,9 @@ import {
   faCartShopping,
   faRoad,
   faCalendar,
+  faList,
+  faHouse,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { clickOutside } from '~/directive/clickOutside.ts';
@@ -32,6 +35,9 @@ library.add(
   faCartShopping,
   faRoad,
   faCalendar,
+  faList,
+  faHouse,
+  faStar
 );
 
 const pinia = createPinia();
