@@ -44,6 +44,7 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 .env.local
+.env.production
 
 # temp directory
 .temp
@@ -69,3 +70,4 @@ node_modules
 # Tous les fichier sql qui font plus de 20Mo
 database/*.sql
 database/mariadb-data
+!/.env.production
