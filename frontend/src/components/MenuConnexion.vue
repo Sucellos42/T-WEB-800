@@ -17,7 +17,7 @@ const initialName: ComputedRef<string> = computed(() => {
 });
 
 const props = defineProps<{
-  isResponsive: boolean;
+  isResponsive?: boolean;
 }>();
 
 function reset(): void {
@@ -28,12 +28,16 @@ function changeIsSelected(): void {
   isSelected.value = !isSelected.value;
 }
 
-function updateInput(type?: string, val: string) {
+
+function updateInput(type?: string, val?: string) {
   if(type === 'evenement') {
+    // @ts-ignore
     inputType.value = inputType.value === val ? '' : val;
     return;
   }
+  // @ts-ignore
   console.log('updateInput', val)
+  // @ts-ignore
   inputType.value = val;
 
 }

@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
-import { GeneralType } from '~/types/storeType/general.type';
+import {FavorisType, GeneralType } from '~/types/storeType/general.type';
 
 
 export const useGeneralStore = defineStore('general', {
     state: (): GeneralType => ({
+        // @ts-ignore
         isResponsive: JSON.parse(localStorage.getItem('isResponsive') || window.innerWidth < 1024),
         favoris: JSON.parse(localStorage.getItem('favoris') || '[]'),
     }),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, ref  } from 'vue';
 import { useRoute } from 'vue-router';
 import Input from '~/components/common/InputCommon.vue';
 import MenuConnexion from '~/components/MenuConnexion.vue';

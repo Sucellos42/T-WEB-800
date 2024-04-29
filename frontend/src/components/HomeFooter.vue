@@ -2,10 +2,9 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from '~/router';
 
-const token: string | null = localStorage.getItem('token') ?? null;
 
 function redirection(url: string) {
-  router.push({ path: url, params: { token: token }})
+  router.push({ path: url })
 }
 
 </script>

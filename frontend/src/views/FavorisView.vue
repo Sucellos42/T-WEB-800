@@ -36,8 +36,7 @@ async function sendData(data: FavorisType) {
       >
         <td class="border-2 p-2">{{ favorites.city }}</td>
         <td class="border-2 p-2">
-          <div v-if="favorites.events == Array && favorites.length === 1"> {{ favorites.events }}</div>
-          <div v-else v-for="(event, indexEvent) in favorites.events" :key="indexEvent">{{ event }}</div>
+          <div v-for="(event, indexEvent) in favorites.events" :key="indexEvent">{{ event }}</div>
         </td>
       </tr>
       </tbody>

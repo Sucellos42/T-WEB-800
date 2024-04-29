@@ -25,7 +25,7 @@ import { Event } from '~/types/events/events.type';
 
 const props = defineProps<{ event: Event }>();
 const event = props.event;
-const { label, description, address, photo_url, city, event_type} = event;
+const { label, description, address, photo_url, city} = event;
 
 const truncatedDescription = description.length > 100 ? description.substring(0, 97) + '...' : description;
 

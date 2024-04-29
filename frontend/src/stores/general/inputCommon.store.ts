@@ -37,6 +37,7 @@ export const useInputCommonStore = defineStore('inputCommon', {
         this.updateCity('');
       }
       else if (favoris && callback) {
+        // @ts-ignore
         await this.loadEventsWithCity(favoris.city, favoris.eventsTranslated);
         this.updateCity('');
         this.updateEvents([], []);
