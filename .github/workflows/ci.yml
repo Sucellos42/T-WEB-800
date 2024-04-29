@@ -1,0 +1,54 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [zubzub]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install Docker and Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+      - name: Run startdocker.sh
+        run: |
+          chmod +x ./startdocker.sh
+          ./startdocker.sh
+
+      - name: Install dependencies for Service 1
+        run: npm install
+        working-directory: ./backend/service1
+
+      - name: Install dependencies for Service 2
+        run: npm install
+        working-directory: ./backend/service2
+
+      - name: Install dependencies for Frontend
+        run: npm install
+        working-directory: ./frontend
+
+      - name: Run tests for Service 1
+        run: npm test
+        working-directory: ./backend/service1
+
+      - name: Run tests for Service 2
+        run: npm test
+        working-directory: ./backend/service2
+
+      - name: Run tests for Frontend
+        run: npm test
+        working-directory: ./frontend
+
+      # Ajouter d'autres étapes pour le déploiement ou d'autres actions spécifiques selon les besoins
